@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Uk weather</string>
+    <string name="weather">Погода:</string>
+    <string name="weather_temp">температура: </string>
+    <string name="weather_winter">вітер: </string>
+    <string name="weather_pressure">тиск: </string>
+    <string name="weather_humidity">вологість: </string>
+    <string name="weather_weather">погода: </string>
+    <string name="weather_feelslike">відчувається: </string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
