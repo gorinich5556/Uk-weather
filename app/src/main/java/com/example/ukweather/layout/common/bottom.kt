@@ -6,7 +6,9 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
+import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,8 +30,10 @@ import com.example.ukweather.getWeather.climate
 import com.example.ukweather.ui.theme.*
 import kotlin.math.roundToInt
 
+@ExperimentalMaterialApi
 @Composable
 fun bottom(context: Context, climateState: MutableState<climate>, navController: NavController, myDbManager: DbManager) {
+    val scaffoldState = rememberBottomSheetScaffoldState()
     val state = rememberScrollState()
     val offsetY = remember {
         mutableStateOf(260f)

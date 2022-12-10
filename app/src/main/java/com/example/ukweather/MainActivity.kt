@@ -3,6 +3,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.*
 import com.example.ukweather.constanse.ConstanseDb
 import com.example.ukweather.constanse.ConstanseWeather
@@ -16,6 +17,7 @@ class MainActivity : ComponentActivity() {
     lateinit var myDbManager : DbManager
     lateinit var temp: MutableState<Int>
     lateinit var climateState: MutableState<climate>
+    @ExperimentalMaterialApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -45,7 +47,6 @@ class MainActivity : ComponentActivity() {
             getLoc.init()
             getLoc.getLoc(ConstanseWeather.CURRENT_WEATHER)
             getLoc.getLoc(ConstanseWeather.FORECAST_OF_DAY)
-
 
             Navigation(this, temp, climateState, myDbManager)
         }

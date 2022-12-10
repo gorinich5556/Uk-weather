@@ -1,6 +1,7 @@
 package com.example.ukweather
 
 import android.content.Context
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.navigation.compose.NavHost
@@ -13,7 +14,7 @@ import com.example.ukweather.getWeather.getLocation
 import com.example.ukweather.layout.mainScreen.myScreen
 import com.example.ukweather.layout.mainScreen.todayScreen
 import com.example.ukweather.layout.mainScreen.weekScreen
-
+@ExperimentalMaterialApi
 @Composable
 fun Navigation(context: Context, temper: MutableState<Int>, nowClim: MutableState<climate>, dbManager: DbManager) {
     val contextM = context

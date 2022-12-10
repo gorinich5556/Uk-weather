@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
@@ -18,7 +19,7 @@ import com.example.ukweather.getWeather.climate
 import com.example.ukweather.layout.todayScreen.lazyRowForShowWeather
 import com.example.ukweather.ui.theme.backgroundDarkBlue
 import com.example.ukweather.ui.theme.backgroundLightBlue
-
+@ExperimentalMaterialApi
 @Composable
 fun todayScreen(context: Context, climateState: MutableState<climate>, navController: NavController, myDbManager: DbManager, nowClimate: MutableState<climate>) {
     val gradientGrayWhite = Brush.verticalGradient(0f to backgroundDarkBlue, 1000f to backgroundLightBlue)
