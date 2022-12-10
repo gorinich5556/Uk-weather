@@ -36,7 +36,7 @@ fun bottom(context: Context, climateState: MutableState<climate>, navController:
     }
     Log.d("ml", "climate: ${climateState.value.temp}")
     //myDbManager.currentTempUpdateToDb(climateState.value)
-    // test comment
+    // test comment2
     Column() {
         BoxWithConstraints(
             Modifier
