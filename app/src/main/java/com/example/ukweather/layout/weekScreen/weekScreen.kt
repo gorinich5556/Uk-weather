@@ -26,7 +26,7 @@ fun weekScreen(context: Context, climateState: MutableState<climate>, navControl
                 .fillMaxSize(),
             contentAlignment = Alignment.BottomCenter
         ){
-            bottom(context = context, climateState = climateState, navController = navController, myDbManager)
+            bottom(context = context, climateState = climateState)
         }
     }
 }

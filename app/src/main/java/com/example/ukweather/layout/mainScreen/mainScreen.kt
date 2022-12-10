@@ -9,10 +9,12 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.zIndex
 import androidx.navigation.NavController
 import com.example.ukweather.db.DbManager
 import com.example.ukweather.getWeather.climate
 import com.example.ukweather.getWeather.getLocation
+import com.example.ukweather.layout.common.navigationBar
 import com.example.ukweather.ui.theme.backgroundDarkBlue
 import com.example.ukweather.ui.theme.backgroundLightBlue
 @ExperimentalMaterialApi
@@ -28,24 +30,35 @@ fun myScreen(context: Context, temper: MutableState<Int>, nowClim: MutableState<
     ) {
         Box(
             modifier = Modifier
-                .fillMaxSize(),
+                .fillMaxSize()
+                .zIndex(2f),
             contentAlignment = Alignment.Center,
         ) {
             nowTemp(nowClimate)
         }
         Box(
             modifier = Modifier
-                .fillMaxSize(),
+                .fillMaxSize()
+                .zIndex(2f),
             contentAlignment = Alignment.TopCenter
         ) {
             changeLocate(nowClimate)
         }
         Box(
             modifier = Modifier
-                .fillMaxSize(),
+                .fillMaxSize()
+                .zIndex(2f),
             contentAlignment = Alignment.BottomCenter
         ) {
-            bottom(context, nowClimate, navController, myDbManager)
+            navigationBar(navController =  navController)
+        }
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .zIndex(1f),
+            contentAlignment = Alignment.BottomCenter
+        ) {
+            bottom(context, nowClimate)
         }
     }
 }

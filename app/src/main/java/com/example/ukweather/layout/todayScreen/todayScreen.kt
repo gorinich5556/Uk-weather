@@ -34,7 +34,7 @@ fun todayScreen(context: Context, climateState: MutableState<climate>, navContro
                 .zIndex(2f),
             contentAlignment = Alignment.BottomCenter
         ){
-            bottom(context = context, climateState = climateState, navController = navController, myDbManager)
+            bottom(context = context, climateState = climateState)
         }
         Box(
             modifier = Modifier
