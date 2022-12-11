@@ -37,7 +37,6 @@ import kotlin.math.roundToInt
 @ExperimentalMaterialApi
 @Composable
 fun bottom(context: Context, climateState: MutableState<climate>) {
-    val scaffoldState = rememberBottomSheetScaffoldState()
     val offsetY = remember {
         mutableStateOf(260f)
     }
@@ -60,7 +59,6 @@ fun bottom(context: Context, climateState: MutableState<climate>) {
                         .padding(horizontal = 32.dp)
                         .offset(0.dp, 10.dp)
                         .clip(shape = RoundedCornerShape(20.dp))
-                        .background(white)
                 ) {
 
                 }
