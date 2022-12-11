@@ -15,7 +15,7 @@ import com.example.ukweather.db.DbManager
 import com.example.ukweather.getWeather.climate
 @ExperimentalMaterialApi
 @Composable
-fun weekScreen(context: Context, climateState: MutableState<climate>, navController: NavController, myDbManager: DbManager){
+fun weekScreen(context: Context, climateState: MutableState<climate>, navController: NavController){
     Column(
         modifier = Modifier
             .fillMaxSize()

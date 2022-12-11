@@ -21,7 +21,7 @@ import com.example.ukweather.ui.theme.backgroundDarkBlue
 import com.example.ukweather.ui.theme.backgroundLightBlue
 @ExperimentalMaterialApi
 @Composable
-fun todayScreen(context: Context, climateState: MutableState<climate>, navController: NavController, myDbManager: DbManager, nowClimate: MutableState<climate>) {
+fun todayScreen(context: Context, climateState: MutableState<climate>, navController: NavController, nowClimate: MutableState<climate>) {
     val gradientGrayWhite = Brush.verticalGradient(0f to backgroundDarkBlue, 1000f to backgroundLightBlue)
     Box(
         modifier = Modifier

@@ -23,13 +23,13 @@ fun Navigation(context: Context, temper: MutableState<Int>, nowClim: MutableStat
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = Screen.currentScreen.route){
         composable(route = Screen.currentScreen.route){
-            myScreen(context = contextM, temper = temp, nowClim = nowClimate, navController, myDbManager = dbManager)
+            myScreen(context = contextM, nowClim = nowClimate, navController)
         }
         composable(route = Screen.todayScreen.route){
-            todayScreen(context = contextM, climateState = nowClim, navController, myDbManager = dbManager, nowClimate = nowClimate)
+            todayScreen(context = contextM, climateState = nowClim, navController, nowClimate = nowClimate)
         }
         composable(route = Screen.weekScreen.route){
-            weekScreen(context = contextM, climateState = nowClim, navController, myDbManager = dbManager)
+            weekScreen(context = contextM, climateState = nowClim, navController)
         }
     }
 }
