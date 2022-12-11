@@ -23,6 +23,7 @@ import com.example.ukweather.layout.common.navigationBar
 import com.example.ukweather.ui.theme.backgroundDarkBlue
 import com.example.ukweather.ui.theme.backgroundLightBlue
 import com.example.ukweather.ui.theme.blue2
+import com.example.ukweather.ui.theme.invisible
 
 @ExperimentalMaterialApi
 @Composable
@@ -37,18 +38,18 @@ fun myScreen(context: Context, temper: MutableState<Int>, nowClim: MutableState<
     ) {
         BottomSheetScaffold(
             modifier = Modifier
-                .padding(bottom = 70.dp),
+                .padding(bottom = 70.dp)
+                .zIndex(0.5f),
             sheetContent = {
                 Box(
                     modifier = Modifier
-                        .zIndex(1f)
-                        //.clip(shape = RoundedCornerShape(topEnd = 30.dp, topStart = 30.dp))
-                        .background(blue2),
+                        .zIndex(1f),
                     contentAlignment = Alignment.BottomCenter
                 ) {
                     bottom(context, nowClimate)
                 }
             },
+            sheetShape =RoundedCornerShape(topEnd = 30.dp, topStart = 30.dp),
             scaffoldState = scaffoldState,
             sheetPeekHeight = 50.dp,
         ){
@@ -82,6 +83,13 @@ fun myScreen(context: Context, temper: MutableState<Int>, nowClim: MutableState<
             contentAlignment = Alignment.BottomCenter
         ) {
             navigationBar(navController =  navController)
+        }
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .zIndex(0.1f)
+                .background(gradientGrayWhite)
+        ) {
         }
     }
 }

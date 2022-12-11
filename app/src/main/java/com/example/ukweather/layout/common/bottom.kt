@@ -59,6 +59,7 @@ fun bottom(context: Context, climateState: MutableState<climate>) {
                         .padding(horizontal = 32.dp)
                         .offset(0.dp, 10.dp)
                         .clip(shape = RoundedCornerShape(20.dp))
+                        .background(white)
                 ) {
 
                 }
