@@ -17,8 +17,6 @@ import com.example.ukweather.ui.theme.white
 
 @Composable
 fun changeLocate(climateState: MutableState<climate>){
-    Row() {
-        Column() {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -41,6 +39,4 @@ fun changeLocate(climateState: MutableState<climate>){
                     )
                 }
             }
-        }
-    }
 }

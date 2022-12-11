@@ -21,7 +21,6 @@ import com.example.ukweather.ui.theme.white
 
 @Composable
 fun navigationBar(navController: NavController,) {
-
     Row(
         modifier = Modifier
             .fillMaxWidth()

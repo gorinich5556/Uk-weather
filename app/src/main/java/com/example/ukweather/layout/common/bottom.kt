@@ -37,14 +37,7 @@ import kotlin.math.roundToInt
 @ExperimentalMaterialApi
 @Composable
 fun bottom(context: Context, climateState: MutableState<climate>) {
-    val offsetY = remember {
-        mutableStateOf(260f)
-    }
     Log.d("ml", "climate: ${climateState.value.temp}")
-    //myDbManager.currentTempUpdateToDb(climateState.value)
-    // test comment2
-    Column() {
-        Column() {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -135,7 +128,5 @@ fun bottom(context: Context, climateState: MutableState<climate>) {
                     )
                 }
             }
-        }
-    }
     }
 

@@ -27,10 +27,9 @@ import com.example.ukweather.ui.theme.invisible
 
 @ExperimentalMaterialApi
 @Composable
-fun myScreen(context: Context, temper: MutableState<Int>, nowClim: MutableState<climate>, navController: NavController, myDbManager: DbManager) {
+fun myScreen(context: Context, nowClim: MutableState<climate>, navController: NavController) {
     val nowClimate = nowClim
     val gradientGrayWhite = Brush.verticalGradient(0f to backgroundDarkBlue, 1000f to backgroundLightBlue)
-    var temp = temper
     val scaffoldState = rememberBottomSheetScaffoldState()
     Box(
         modifier = Modifier
@@ -84,12 +83,6 @@ fun myScreen(context: Context, temper: MutableState<Int>, nowClim: MutableState<
         ) {
             navigationBar(navController =  navController)
         }
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .zIndex(0.1f)
-                .background(gradientGrayWhite)
-        ) {
-        }
+
     }
 }
