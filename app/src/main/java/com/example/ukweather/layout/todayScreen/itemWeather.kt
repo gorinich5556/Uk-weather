@@ -1,8 +1,8 @@
 package com.example.ukweather.layout.todayScreen
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
+import android.util.Log
+import androidx.compose.foundation.*
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -22,69 +22,33 @@ import com.example.ukweather.ui.theme.white
 @Preview
 @Composable
 fun itemWeather() {
-    Column(
-        modifier = Modifier
-            .fillMaxHeight()
-            .width(180.dp)
-            .border(BorderStroke(3.dp, blue2))
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(80.dp)
-                .drawBehind {
-                    val borderSize = 6.dp.toPx()
-                    drawLine(
-                        color = blue2,
-                        start = Offset(0f, size.height),
-                        end = Offset(size.width, size.height),
-                        strokeWidth = borderSize
-                    )
-                },
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.sunny),
-                contentDescription = "weather image",
-                modifier = Modifier
-                    .size(60.dp)
-                    .padding(top = 5.dp, start = 10.dp)
-            )
-            Column(
-                modifier = Modifier
-                    .padding(start = 6.dp)
-            ) {
-                Text(
-                    text = "00:00",
-                    style = TextStyle(
-                        color = white,
-                        fontSize = 22.sp
-                    ),
+    BoxWithConstraints() {
+        val boxWithConstraintsScope = this
+        Log.d("ml", "max height: ${boxWithConstraintsScope.maxHeight}")
+
+            if (boxWithConstraintsScope.maxHeight <= 200.dp) {
+                Column(
                     modifier = Modifier
-                        .padding(top = 5.dp)
-                )
-                Text(
-                    text = "сонячно",
-                    style = TextStyle(
-                        color = white,
-                        fontSize = 20.sp
-                    ),
+                        .fillMaxHeight()
+                        .width(180.dp)
+                        .border(BorderStroke(3.dp, blue2))
+                        .verticalScroll(rememberScrollState())
+                ) {
+                    topPart()
+                    bottomPart(boxWithConstraintsScope)
+                }
+            } else {
+                Column(
                     modifier = Modifier
-                        .offset(y = -3.dp)
-                )
+                        .fillMaxHeight()
+                        .width(180.dp)
+                        .border(BorderStroke(3.dp, blue2))
+                ) {
+                    topPart()
+                    bottomPart(boxWithConstraintsScope)
+                }
             }
         }
-        Column(
-            modifier = Modifier
-                .padding(start = 10.dp)
-        ) {
-            param("температура", "-1")
-            param("відчувається", "-1")
-            param("вітер", "1м/с")
-            param("вологість", "80%")
-            param("тиск", "1002мм")
-        }
-    }
 }
 
 @Composable
@@ -98,4 +62,83 @@ fun param(text: String, param: String){
         modifier = Modifier
             .padding(top = 5.dp)
     )
+}
+@Composable
+fun topPart(){
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(80.dp)
+            .drawBehind {
+                val borderSize = 6.dp.toPx()
+                drawLine(
+                    color = blue2,
+                    start = Offset(0f, size.height),
+                    end = Offset(size.width, size.height),
+                    strokeWidth = borderSize
+                )
+            },
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.sunny),
+            contentDescription = "weather image",
+            modifier = Modifier
+                .size(60.dp)
+                .padding(top = 5.dp, start = 10.dp)
+        )
+        Column(
+            modifier = Modifier
+                .padding(start = 6.dp)
+        ) {
+            Text(
+                text = "00:00",
+                style = TextStyle(
+                    color = white,
+                    fontSize = 22.sp
+                ),
+                modifier = Modifier
+                    .padding(top = 5.dp)
+            )
+            Text(
+                text = "сонячно",
+                style = TextStyle(
+                    color = white,
+                    fontSize = 20.sp
+                ),
+                modifier = Modifier
+                    .offset(y = -3.dp)
+            )
+        }
+    }
+}
+
+@Composable
+fun bottomPart(boxWithConstraintsScope:  BoxWithConstraintsScope){
+    if(boxWithConstraintsScope.maxHeight >= 300.dp){
+        Log.d("ml", "This device is biger than 300db")
+        Column(
+            verticalArrangement = Arrangement.SpaceEvenly,
+            modifier = Modifier
+                .padding(start = 10.dp)
+                .fillMaxSize(),
+        ) {
+            param("температура", "-1")
+            param("відчувається", "-1")
+            param("вітер", "1м/с")
+            param("вологість", "80%")
+            param("тиск", "1002мм")
+        }
+    }else{
+        Column(
+            modifier = Modifier
+                .padding(start = 10.dp, bottom = 12.dp, top = 5.dp)
+        ) {
+            param("температура", "-1")
+            param("відчувається", "-1")
+            param("вітер", "1м/с")
+            param("вологість", "80%")
+            param("тиск", "1002мм")
+        }
+    }
 }
