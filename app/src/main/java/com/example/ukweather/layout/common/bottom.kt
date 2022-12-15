@@ -22,6 +22,7 @@ import androidx.compose.ui.input.pointer.consumeAllChanges
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -37,96 +38,70 @@ import kotlin.math.roundToInt
 @ExperimentalMaterialApi
 @Composable
 fun bottom(context: Context, climateState: MutableState<climate>) {
-    Log.d("ml", "climate: ${climateState.value.temp}")
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(300.dp)
-                    .clip(shape = RoundedCornerShape(topEnd = 30.dp, topStart = 30.dp))
-                    .background(blue2)
-            ) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(7.dp)
-                        .padding(horizontal = 32.dp)
-                        .offset(0.dp, 10.dp)
-                        .clip(shape = RoundedCornerShape(20.dp))
-                        .background(white)
-                ) {
-
-                }
-                Column(
-                    modifier = Modifier
-                        .padding(start = 32.dp)
-                ) {
-                    Text(
-                        text = context.getString(R.string.weather),
-                        style = TextStyle(
-                            color = white,
-                            fontSize = 20.sp
-                        ),
-                        modifier = Modifier
-                            .padding(top = 11.dp)
-                    )
-                    Text(
-                        text = "${context.getString(R.string.weather_temp)} ${climateState.value.temp}°",
-                        style = TextStyle(
-                            color = white,
-                            fontSize = 18.sp
-                        ),
-                        modifier = Modifier
-                            .padding(top = 7.dp)
-                    )
-                    Text(
-                        text = "${context.getString(R.string.weather_feelslike)} ${climateState.value.feelslike}°",
-                        style = TextStyle(
-                            color = white,
-                            fontSize = 18.sp
-                        ),
-                        modifier = Modifier
-                            .padding(top = 7.dp)
-                    )
-                    Text(
-                        text = "${context.getString(R.string.weather_winter)} ${
-                            Math.round((climateState.value.wind.toDouble() / 3.6).toDouble())
-                                .toInt()
-                        }м/с",
-                        style = TextStyle(
-                            color = white,
-                            fontSize = 18.sp
-                        ),
-                        modifier = Modifier
-                            .padding(top = 7.dp)
-                    )
-                    Text(
-                        text = "${context.getString(R.string.weather_weather)} ${climateState.value.weather}",
-                        style = TextStyle(
-                            color = white,
-                            fontSize = 18.sp
-                        ),
-                        modifier = Modifier
-                            .padding(top = 7.dp)
-                    )
-                    Text(
-                        text = "${context.getString(R.string.weather_humidity)} ${climateState.value.humidity}%",
-                        style = TextStyle(
-                            color = white,
-                            fontSize = 18.sp
-                        ),
-                        modifier = Modifier
-                            .padding(top = 7.dp)
-                    )
-                    Text(
-                        text = "${context.getString(R.string.weather_pressure)} ${climateState.value.pressure}мм",
-                        style = TextStyle(
-                            color = white,
-                            fontSize = 18.sp
-                        ),
-                        modifier = Modifier
-                            .padding(top = 7.dp)
-                    )
-                }
-            }
+    BoxWithConstraints() {
+        val boxWithConstraintsScope = this
+        Log.d("ml", "max height: ${boxWithConstraintsScope.maxHeight}")
+        Log.d("ml", "climate: ${climateState.value.temp}")
+        if(boxWithConstraintsScope.maxHeight < 450.dp) {
+            bottomContent(context = context, climateState = climateState, 260.dp)
+        } else{
+            bottomContent(context = context, climateState = climateState, 300.dp)
+        }
     }
+    }
+@ExperimentalMaterialApi
+@Composable
+fun bottomContent(context: Context, climateState: MutableState<climate>, height: Dp){
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(height)
+            .clip(shape = RoundedCornerShape(topEnd = 30.dp, topStart = 30.dp))
+            .background(blue2)
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(7.dp)
+                .padding(horizontal = 32.dp)
+                .offset(0.dp, 10.dp)
+                .clip(shape = RoundedCornerShape(20.dp))
+                .background(white)
+        ) {
 
+        }
+        Column(
+            modifier = Modifier
+                .padding(start = 32.dp)
+        ) {
+            Text(
+                text = context.getString(R.string.weather),
+                style = TextStyle(
+                    color = white,
+                    fontSize = 20.sp
+                ),
+                modifier = Modifier
+                    .padding(top = 11.dp)
+            )
+
+            bottomParam(param = context.getString(R.string.weather_temp), value = climateState.value.temp.toString() + "°")
+            bottomParam(param = context.getString(R.string.weather_feelslike), value = climateState.value.feelslike.toString() + "°")
+            bottomParam(param = context.getString(R.string.weather_winter), value = Math.round((climateState.value.wind.toDouble() / 3.6)).toString() + "м/с")
+            bottomParam(param = context.getString(R.string.weather_weather), value = climateState.value.weather)
+            bottomParam(param = context.getString(R.string.weather_humidity), value = climateState.value.humidity.toString() + "%")
+            bottomParam(param = context.getString(R.string.weather_pressure), value = climateState.value.pressure.toString() + "мм")
+        }
+    }
+}
+@Composable
+fun bottomParam(param: String, value: String){
+    Text(
+        text = "$param $value",
+        style = TextStyle(
+            color = white,
+            fontSize = 18.sp
+        ),
+        modifier = Modifier
+            .padding(top = 7.dp)
+    )
+}

@@ -24,7 +24,7 @@ import com.example.ukweather.ui.theme.white
 fun itemWeather() {
     BoxWithConstraints() {
         val boxWithConstraintsScope = this
-        Log.d("ml", "max height: ${boxWithConstraintsScope.maxHeight}")
+            //Log.d("ml", "max height: ${boxWithConstraintsScope.maxHeight}")
 
             if (boxWithConstraintsScope.maxHeight <= 200.dp) {
                 Column(
