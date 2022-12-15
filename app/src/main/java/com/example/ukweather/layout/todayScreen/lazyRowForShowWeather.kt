@@ -42,7 +42,7 @@ fun lazyRowForShowWeather() {
                     modifier = Modifier
                         .fillMaxWidth()
                         .fillMaxHeight(0.4f)
-                        .border(BorderStroke(20.dp, blue2))
+                        .border(BorderStroke(10.dp, blue2))
                         .padding(start = 5.dp),
                 ) {
                     itemsIndexed(test_list) { _, item ->
