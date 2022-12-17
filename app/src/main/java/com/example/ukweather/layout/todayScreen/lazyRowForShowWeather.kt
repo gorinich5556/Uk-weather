@@ -1,5 +1,6 @@
 package com.example.ukweather.layout.todayScreen
 
+import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -24,10 +25,12 @@ import androidx.compose.ui.unit.sp
 import com.example.ukweather.R
 import com.example.ukweather.ui.theme.blue2
 import com.example.ukweather.ui.theme.white
+import java.util.*
 
 @Preview(showBackground = false)
 @Composable
 fun lazyRowForShowWeather() {
+
     val test_list = arrayListOf<Int>(0, 1, 2,)
     Box(
         modifier = Modifier
@@ -36,35 +39,36 @@ fun lazyRowForShowWeather() {
             .fillMaxHeight(1f),
         contentAlignment = Alignment.Center
     ) {
-        BoxWithConstraints() {
-            if (this.maxHeight >= 300.dp) {
-                LazyRow(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .fillMaxHeight(0.4f)
-                        .border(BorderStroke(10.dp, blue2))
-                        .padding(start = 5.dp),
-                ) {
-                    itemsIndexed(test_list) { _, item ->
-                        itemWeather()
+        Column() {
+            BoxWithConstraints() {
+                if (this.maxHeight >= 300.dp) {
+                    LazyRow(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight(0.4f)
+                            .border(BorderStroke(10.dp, blue2))
+                            .padding(start = 5.dp),
+                    ) {
+                        itemsIndexed(test_list) { _, item ->
+                            itemWeather()
+                        }
                     }
-                }
-            } else {
-                LazyRow(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .fillMaxHeight(0.5f)
-                        .border(BorderStroke(20.dp, blue2))
-                        .padding(start = 5.dp),
-                ) {
-                    itemsIndexed(test_list) { _, item ->
+                } else {
+                    LazyRow(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight(0.5f)
+                            .border(BorderStroke(20.dp, blue2))
+                            .padding(start = 5.dp),
+                    ) {
+                        itemsIndexed(test_list) { _, item ->
 
-                        itemWeather()
+                            itemWeather()
 
+                        }
                     }
                 }
             }
         }
-
     }
 }

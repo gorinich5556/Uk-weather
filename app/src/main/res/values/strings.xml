@@ -8,5 +8,16 @@
     <string name="weather_weather">погода: </string>
     <string name="weather_feelslike">відчувається: </string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="January">cічня</string>
+    <string name="February">лютий</string>
+    <string name="March">березня</string>
+    <string name="April">квітня</string>
+    <string name="May">травень</string>
+    <string name="June">червня</string>
+    <string name="July">липня</string>
+    <string name="August">серпня</string>
+    <string name="September">врересня</string>
+    <string name="October">жовтня</string>
+    <string name="November">листопада.</string>
+    <string name="December">грудня</string>
 </resources>
