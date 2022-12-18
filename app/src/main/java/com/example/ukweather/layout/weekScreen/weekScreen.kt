@@ -23,6 +23,7 @@ import com.example.ukweather.db.DbManager
 import com.example.ukweather.getWeather.climate
 import com.example.ukweather.layout.common.navigationBar
 import com.example.ukweather.layout.todayScreen.lazyRowForShowWeather
+import com.example.ukweather.layout.weekScreen.lazyRowWeekScreen
 import com.example.ukweather.ui.theme.backgroundDarkBlue
 import com.example.ukweather.ui.theme.backgroundLightBlue
 
@@ -66,6 +67,13 @@ fun weekScreen(context: Context, climateState: MutableState<climate>, navControl
                     contentAlignment = Alignment.TopCenter
                 ) {
                     changeLocate(nowClimate)
+                }
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ){
+                    lazyRowWeekScreen()
                 }
             }
         }
