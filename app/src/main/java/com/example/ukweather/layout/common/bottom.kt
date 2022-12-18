@@ -40,8 +40,6 @@ import kotlin.math.roundToInt
 fun bottom(context: Context, climateState: MutableState<climate>) {
     BoxWithConstraints() {
         val boxWithConstraintsScope = this
-        Log.d("ml", "max height: ${boxWithConstraintsScope.maxHeight}")
-        Log.d("ml", "climate: ${climateState.value.temp}")
         if(boxWithConstraintsScope.maxHeight < 450.dp) {
             bottomContent(context = context, climateState = climateState, 260.dp)
         } else{

@@ -50,7 +50,6 @@ class MainActivity : ComponentActivity() {
 
                 val calendar: Calendar = GregorianCalendar.getInstance()
                 val hoursNow = calendar.get(Calendar.HOUR_OF_DAY)
-                Log.d("ml", "current time is: ${hoursNow}")
 
                 var clm = climate()
                 setContent {
@@ -91,10 +90,6 @@ class MainActivity : ComponentActivity() {
             if(it){
                 myDbManager = DbManager(this)
                 myDbManager.openDb()
-
-                val calendar: Calendar = GregorianCalendar.getInstance()
-                val hoursNow = calendar.get(Calendar.HOUR_OF_DAY)
-                Log.d("ml", "current time is: ${hoursNow}")
 
                 var clm = climate()
                 setContent {

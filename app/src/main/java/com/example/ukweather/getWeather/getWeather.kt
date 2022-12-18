@@ -145,14 +145,12 @@ fun getResult(locate:String, context: Context, nowClimate: MutableState<climate>
                 }
                 ConstanseWeather.FORECAST_OF_DAY ->{
                     val list = obj.getJSONArray("list")
-                    Log.d("ml", "item 1: ${list[0]}")
-                    Log.d("ml", "item 1: ${list[1]}")
-                    Log.d("ml", "item 1: ${list[2]}")
-                    Log.d("ml", "item 1: ${list[39]}")
+                    //Log.d("ml", "item 1: ${list[0]}")
+                    //Log.d("ml", "item 1: ${list[1]}")
+                    //Log.d("ml", "item 1: ${list[2]}")
+                    //Log.d("ml", "item 1: ${list[39]}")
                     var howMuchShow = 0.0
                     howMuchShow = (24.0 - hoursNow) / 3
-                    Log.d("ml", "how much show: $howMuchShow")
-                    Log.d("ml", "minute is: $minutesNow")
                     val result = Math.ceil(howMuchShow).toInt()
                     Log.d("ml", "how much show after: $result")
                 }

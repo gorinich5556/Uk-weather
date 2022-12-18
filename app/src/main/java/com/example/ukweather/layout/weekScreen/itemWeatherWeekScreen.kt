@@ -38,7 +38,6 @@ fun itemWeatherWeekScreen() {
     val maxWind = 2
     val minWind = 0
     BoxWithConstraints() {
-        Log.d("ml", "height in item weather from week screen: ${this.maxHeight}")
         if(this.maxHeight < 250.dp) {
             Column(
                 modifier = Modifier

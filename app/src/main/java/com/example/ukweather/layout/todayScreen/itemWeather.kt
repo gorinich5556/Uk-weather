@@ -116,7 +116,6 @@ fun topPart(){
 @Composable
 fun bottomPart(boxWithConstraintsScope:  BoxWithConstraintsScope){
     if(boxWithConstraintsScope.maxHeight >= 300.dp){
-        Log.d("ml", "This device is biger than 300db")
         Column(
             verticalArrangement = Arrangement.SpaceEvenly,
             modifier = Modifier

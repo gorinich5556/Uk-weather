@@ -53,10 +53,6 @@ fun todayScreen(context: Context, climateState: MutableState<climate>, navContro
             10 -> monthName = context.getString(R.string.November)
             11 -> monthName = context.getString(R.string.December)
         }
-
-    Log.d("ml", "month: $monthName")
-
-    Log.d("ml", "month now is: $monthNow")
     Box(
         modifier = Modifier
             .fillMaxSize()
