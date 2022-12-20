@@ -26,7 +26,7 @@ import com.example.ukweather.ui.theme.darkBlue
 @Preview
 @Composable
 fun itemWeatherWeekScreen() {
-    val weatherImage = R.drawable.sunny
+    val weatherImage = R.drawable._01d
     val weatherData = 14
     val weatherMonth = "гр."
 

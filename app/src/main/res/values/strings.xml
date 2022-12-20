@@ -20,4 +20,14 @@
     <string name="October">жовтня</string>
     <string name="November">листопада.</string>
     <string name="December">грудня</string>
+    <string name="clearDay">сонячно</string>
+    <string name="clearNight">місячно</string>
+    <string name="fewClouds">трохи хмарно</string>
+    <string name="clouds">хмарно</string>
+    <string name="brokenClouds">дуже хмарно</string>
+    <string name="showerRain">злива</string>
+    <string name="rain">дощ</string>>
+    <string name="thunderstorm">гроза</string>
+    <string name="snow">сніжно</string>
+    <string name="mist">туман</string>
 </resources>
