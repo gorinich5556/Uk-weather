@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
@@ -25,11 +26,11 @@ import androidx.compose.ui.unit.sp
 import com.example.ukweather.R
 import com.example.ukweather.ui.theme.blue2
 import com.example.ukweather.ui.theme.white
+import org.json.JSONObject
 import java.util.*
 
-@Preview(showBackground = false)
 @Composable
-fun lazyRowForShowWeather() {
+fun lazyRowForShowWeather(todayClimate: MutableState<ArrayList<JSONObject>>, context: Context) {
 
     val test_list = arrayListOf<Int>(0, 1, 2,)
     Box(
@@ -49,8 +50,8 @@ fun lazyRowForShowWeather() {
                             .border(BorderStroke(10.dp, blue2))
                             .padding(start = 5.dp),
                     ) {
-                        itemsIndexed(test_list) { _, item ->
-                            itemWeather()
+                        itemsIndexed(todayClimate.value) { _, item ->
+                            itemWeather(item, context)
                         }
                     }
                 } else {
@@ -61,9 +62,9 @@ fun lazyRowForShowWeather() {
                             .border(BorderStroke(20.dp, blue2))
                             .padding(start = 5.dp),
                     ) {
-                        itemsIndexed(test_list) { _, item ->
+                        itemsIndexed(todayClimate.value) { _, item ->
 
-                            itemWeather()
+                            itemWeather(item, context)
 
                         }
                     }

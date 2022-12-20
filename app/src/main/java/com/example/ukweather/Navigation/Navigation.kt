@@ -14,11 +14,12 @@ import com.example.ukweather.getWeather.getLocation
 import com.example.ukweather.layout.mainScreen.myScreen
 import com.example.ukweather.layout.mainScreen.todayScreen
 import com.example.ukweather.layout.mainScreen.weekScreen
+import org.json.JSONObject
+
 @ExperimentalMaterialApi
 @Composable
-fun Navigation(context: Context, temper: MutableState<Int>, nowClim: MutableState<climate>, dbManager: DbManager) {
+fun Navigation(context: Context, nowClim: MutableState<climate>, todayClimate: MutableState<ArrayList<JSONObject>>) {
     val contextM = context
-    var temp = temper
     val nowClimate = nowClim
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = Screen.currentScreen.route){
@@ -26,7 +27,7 @@ fun Navigation(context: Context, temper: MutableState<Int>, nowClim: MutableStat
             myScreen(context = contextM, nowClim = nowClimate, navController)
         }
         composable(route = Screen.todayScreen.route){
-            todayScreen(context = contextM, climateState = nowClim, navController, nowClimate = nowClimate)
+            todayScreen(context = contextM, navController, nowClimate = nowClimate, todayClimate = todayClimate)
         }
         composable(route = Screen.weekScreen.route){
             weekScreen(context = contextM, climateState = nowClim, navController)

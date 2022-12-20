@@ -19,12 +19,12 @@ import com.example.ukweather.db.DbManager
 import com.example.ukweather.db.timeNow
 import com.example.ukweather.getWeather.climate
 import com.example.ukweather.getWeather.getLocation
+import org.json.JSONObject
 import java.util.*
 
 class MainActivity : ComponentActivity() {
     private lateinit var  pLauncher: ActivityResultLauncher<String>
     lateinit var myDbManager : DbManager
-    lateinit var climateState: MutableState<climate>
     @RequiresApi(Build.VERSION_CODES.M)
     @ExperimentalMaterialApi
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,19 +48,16 @@ class MainActivity : ComponentActivity() {
                 myDbManager = DbManager(this)
                 myDbManager.openDb()
 
-                val calendar: Calendar = GregorianCalendar.getInstance()
-                val hoursNow = calendar.get(Calendar.HOUR_OF_DAY)
 
-                var clm = climate()
                 setContent {
-                    climateState = remember { mutableStateOf(clm) }
-                    var temp = remember { mutableStateOf(0) }
-                    val getLoc = getLocation(this, climateState, myDbManager)
+                    val climateState = remember { mutableStateOf(climate()) }
+                    val todayClimate = remember { mutableStateOf(ArrayList<JSONObject>()) }
+                    val getLoc = getLocation(this, climateState, todayClimate)
                     getLoc.init()
                     getLoc.getLoc(ConstanseWeather.CURRENT_WEATHER)
                     getLoc.getLoc(ConstanseWeather.FORECAST_OF_DAY)
 
-                    Navigation(this, temp, climateState, myDbManager)
+                    Navigation(this, climateState, todayClimate)
                 }
                     }
             shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION) ->{
@@ -91,16 +88,15 @@ class MainActivity : ComponentActivity() {
                 myDbManager = DbManager(this)
                 myDbManager.openDb()
 
-                var clm = climate()
                 setContent {
-                    climateState = remember { mutableStateOf(clm) }
-                    var temp = remember { mutableStateOf(0) }
-                    val getLoc = getLocation(this, climateState, myDbManager)
+                    val climateState = remember { mutableStateOf(climate()) }
+                    val todayClimate = remember { mutableStateOf(ArrayList<JSONObject>()) }
+                    val getLoc = getLocation(this, climateState, todayClimate)
                     getLoc.init()
                     getLoc.getLoc(ConstanseWeather.CURRENT_WEATHER)
                     getLoc.getLoc(ConstanseWeather.FORECAST_OF_DAY)
 
-                    Navigation(this, temp, climateState, myDbManager)
+                    Navigation(this, climateState, todayClimate)
                 }
             }else{
                 buildPermissionAlertDialog()

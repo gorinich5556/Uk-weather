@@ -27,16 +27,19 @@ import com.example.ukweather.layout.common.navigationBar
 import com.example.ukweather.layout.todayScreen.lazyRowForShowWeather
 import com.example.ukweather.ui.theme.backgroundDarkBlue
 import com.example.ukweather.ui.theme.backgroundLightBlue
+import org.json.JSONObject
 import java.util.*
 
 @ExperimentalMaterialApi
 @Composable
-fun todayScreen(context: Context, climateState: MutableState<climate>, navController: NavController, nowClimate: MutableState<climate>) {
+fun todayScreen(context: Context, navController: NavController, nowClimate: MutableState<climate>, todayClimate: MutableState<ArrayList<JSONObject>>) {
     val gradientGrayWhite = Brush.verticalGradient(0f to backgroundDarkBlue, 1000f to backgroundLightBlue)
     val scaffoldState = rememberBottomSheetScaffoldState()
     val calendar: Calendar = GregorianCalendar.getInstance()
     val dayNow = calendar.get(Calendar.DAY_OF_MONTH)
     val monthNow = calendar.get(Calendar.MONTH)
+
+    Log.d("ml", "today climate from today screen: $todayClimate")
 
     var monthName = ""
         when(monthNow){
@@ -84,7 +87,7 @@ fun todayScreen(context: Context, climateState: MutableState<climate>, navContro
                     modifier = Modifier
                         .fillMaxSize()
                 ){
-                    lazyRowForShowWeather()
+                    lazyRowForShowWeather(todayClimate, context)
                 }
                 Box(
                     modifier = Modifier

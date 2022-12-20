@@ -1,5 +1,6 @@
 package com.example.ukweather.layout.todayScreen
 
+import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.scrollable
@@ -18,10 +19,18 @@ import androidx.compose.ui.unit.sp
 import com.example.ukweather.R
 import com.example.ukweather.ui.theme.blue2
 import com.example.ukweather.ui.theme.white
+import org.json.JSONObject
 
-@Preview
 @Composable
-fun itemWeather() {
+fun itemWeather(todayClimateOfThreeHours: JSONObject, context: Context) {
+    val weatherIcon = todayClimateOfThreeHours.getJSONObject("weather").getString("icon")
+    var weatherIc = 0
+    /*when(weatherIcon){
+        "01d" -> {
+            weatherIc = R.drawable.sunny
+        }
+    }*/
+
     BoxWithConstraints() {
         val boxWithConstraintsScope = this
             //Log.d("ml", "max height: ${boxWithConstraintsScope.maxHeight}")
@@ -35,7 +44,7 @@ fun itemWeather() {
                         .verticalScroll(rememberScrollState())
                 ) {
                     topPart()
-                    bottomPart(boxWithConstraintsScope)
+                    bottomPart(boxWithConstraintsScope, context, todayClimateOfThreeHours)
                 }
             } else {
                 Column(
@@ -45,7 +54,7 @@ fun itemWeather() {
                         .border(BorderStroke(3.dp, blue2))
                 ) {
                     topPart()
-                    bottomPart(boxWithConstraintsScope)
+                    bottomPart(boxWithConstraintsScope, context, todayClimateOfThreeHours)
                 }
             }
         }
@@ -54,7 +63,7 @@ fun itemWeather() {
 @Composable
 fun param(text: String, param: String){
     Text(
-        text = "$text: $param",
+        text = "$text $param",
         style = TextStyle(
             color = white,
             fontSize = 19.sp
@@ -114,7 +123,7 @@ fun topPart(){
 }
 
 @Composable
-fun bottomPart(boxWithConstraintsScope:  BoxWithConstraintsScope){
+fun bottomPart(boxWithConstraintsScope:  BoxWithConstraintsScope, context: Context, weather: JSONObject){
     if(boxWithConstraintsScope.maxHeight >= 300.dp){
         Column(
             verticalArrangement = Arrangement.SpaceEvenly,
@@ -122,22 +131,22 @@ fun bottomPart(boxWithConstraintsScope:  BoxWithConstraintsScope){
                 .padding(start = 10.dp)
                 .fillMaxSize(),
         ) {
-            param("температура", "-1")
-            param("відчувається", "-1")
-            param("вітер", "1м/с")
-            param("вологість", "80%")
-            param("тиск", "1002мм")
+            param(context.getString(R.string.weather_temp), (Math.round(weather.getJSONObject("main").getString("temp").toDouble())).toString() + "°")
+            param(context.getString(R.string.weather_feelslike), (Math.round(weather.getJSONObject("main").getString("feels_like").toDouble())).toString() + "°")
+            param(context.getString(R.string.weather_winter), (Math.round(weather.getJSONObject("wind").getString("speed").toDouble())).toString() + "м/с")
+            param(context.getString(R.string.weather_humidity), (Math.round(weather.getJSONObject("main").getString("humidity").toDouble())).toString() + "%")
+            param(context.getString(R.string.weather_pressure), (Math.round(weather.getJSONObject("main").getString("pressure").toDouble())).toString() + "мм")
         }
     }else{
         Column(
             modifier = Modifier
                 .padding(start = 10.dp, bottom = 12.dp, top = 5.dp)
         ) {
-            param("температура", "-1")
-            param("відчувається", "-1")
-            param("вітер", "1м/с")
-            param("вологість", "80%")
-            param("тиск", "1002мм")
+            param(context.getString(R.string.weather_temp), (Math.round(weather.getJSONObject("main").getString("temp").toDouble())).toString() + "°")
+            param(context.getString(R.string.weather_feelslike), (Math.round(weather.getJSONObject("main").getString("feels_like").toDouble())).toString() + "°")
+            param(context.getString(R.string.weather_winter), (Math.round(weather.getJSONObject("wind").getString("speed").toDouble())).toString() + "м/с")
+            param(context.getString(R.string.weather_humidity), (Math.round(weather.getJSONObject("main").getString("humidity").toDouble())).toString() + "%")
+            param(context.getString(R.string.weather_pressure), (Math.round(weather.getJSONObject("main").getString("pressure").toDouble())).toString() + "мм")
         }
     }
 }
