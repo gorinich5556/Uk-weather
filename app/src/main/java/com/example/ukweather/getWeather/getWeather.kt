@@ -27,6 +27,7 @@ fun getResult(locate:String, context: Context, nowClimate: MutableState<climate>
     val dayNow = calendar.get(Calendar.DAY_OF_WEEK)
     val weekNow = calendar.get(Calendar.WEEK_OF_YEAR)
     val minutesNow = calendar.get(Calendar.MINUTE)
+    Log.d("ml", "hour n: $hoursNow")
 
     when(whil){
         ConstanseWeather.CURRENT_WEATHER ->{
@@ -153,11 +154,11 @@ fun getResult(locate:String, context: Context, nowClimate: MutableState<climate>
                     var howMuchShow = 0.0
                     howMuchShow = (24.0 - hoursNow) / 3
                     val result = Math.ceil(howMuchShow).toInt()
-                    //Log.d("ml", "how much show after: $result")
+                    Log.d("ml", "how much show after: $result")
 
                     val list = arrayListOf<JSONObject>()
 
-                    for(i in 0..result){
+                    for(i in 0..result-1){
                         list.add(jsonArray.getJSONObject(i))
                     }
                     //val nextTempMax = list[0].getJSONObject("main").getString("temp_max")

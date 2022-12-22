@@ -102,14 +102,17 @@ fun todayScreen(context: Context, navController: NavController, nowClimate: Muta
                                 .fillMaxWidth(),
                             contentAlignment = Alignment.Center
                         ) {
-                            Text(
-                                text = "$dayNow $monthName",
-                                fontSize = 20.sp,
-                                color = Color.White,
-                                modifier = Modifier
-                                    .padding(top = 40.dp)
+                            BoxWithConstraints() {
+                                if(this.maxHeight > 280.dp)
+                                Text(
+                                    text = "$dayNow $monthName",
+                                    fontSize = 20.sp,
+                                    color = Color.White,
+                                    modifier = Modifier
+                                        .padding(top = 40.dp)
 
-                            )
+                                )
+                            }
                         }
                     }
                 }

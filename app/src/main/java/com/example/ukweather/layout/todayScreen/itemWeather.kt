@@ -10,6 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
@@ -202,10 +203,10 @@ fun topPart(weatherIc: Int, weather: String, weatherT: String?){
 fun bottomPart(boxWithConstraintsScope:  BoxWithConstraintsScope, context: Context, weather: JSONObject){
     if(boxWithConstraintsScope.maxHeight >= 300.dp){
         Column(
-            verticalArrangement = Arrangement.SpaceEvenly,
             modifier = Modifier
-                .padding(start = 10.dp)
+                .padding(start = 10.dp, bottom = 10.dp)
                 .fillMaxSize(),
+            verticalArrangement = Arrangement.SpaceBetween,
         ) {
             param(context.getString(R.string.weather_temp), (Math.round(weather.getJSONObject("main").getString("temp").toDouble())).toString() + "°")
             param(context.getString(R.string.weather_feelslike), (Math.round(weather.getJSONObject("main").getString("feels_like").toDouble())).toString() + "°")
