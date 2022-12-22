@@ -110,4 +110,60 @@ class DbManager(context: Context) {
         db?.update(ConstanseDb.CURRENT_TEMP_TABLE_NAME, values, selection, null)
     }
 
+    //--------------------------TODAY WEATHER------------------//
+
+
+
+    fun todayWeatherInsertToDb(climate: climate){
+        val values = ContentValues().apply {
+            put(ConstanseDb.TODAY_COLUMN_NAME_TEMP, climate.temp)
+            put(ConstanseDb.TODAY_COLUMN_NAME_TEMP_FEELS_LIKE, climate.feelslike)
+            put(ConstanseDb.TODAY_COLUMN_NAME_WIND, climate.wind)
+            put(ConstanseDb.TODAY_COLUMN_NAME_PRESSURE, climate.pressure)
+            put(ConstanseDb.TODAY_COLUMN_NAME_HUMIDITY, climate.humidity)
+            put(ConstanseDb.TODAY_COLUMN_NAME_WEATHER, climate.weather)
+            put(ConstanseDb.TODAY_COLUMN_NAME_HOUR, climate.hour)
+        }
+        db?.insert(ConstanseDb.TODAY_TABLE_NAME, null, values)
+    }
+
+    fun todayWeatherReadDbData(): ArrayList<climate>{
+        val list = ArrayList<climate>()
+
+        val cursor = db?.query(ConstanseDb.TODAY_TABLE_NAME, null, null,
+            null, null, null, null)
+
+        while (cursor?.moveToNext()!!){
+            val cl = climate()
+            cl.temp = cursor.getInt(cursor.getColumnIndexOrThrow(ConstanseDb.TODAY_COLUMN_NAME_TEMP))
+            cl.feelslike = cursor.getInt(cursor.getColumnIndexOrThrow(ConstanseDb.TODAY_COLUMN_NAME_TEMP_FEELS_LIKE))
+            cl.wind = cursor.getInt(cursor.getColumnIndexOrThrow(ConstanseDb.TODAY_COLUMN_NAME_WIND))
+            cl.pressure = cursor.getInt(cursor.getColumnIndexOrThrow(ConstanseDb.TODAY_COLUMN_NAME_PRESSURE))
+            cl.humidity = cursor.getInt(cursor.getColumnIndexOrThrow(ConstanseDb.TODAY_COLUMN_NAME_HUMIDITY))
+            cl.weather = cursor.getString(cursor.getColumnIndexOrThrow(ConstanseDb.TODAY_COLUMN_NAME_WEATHER))
+            cl.hour = cursor.getInt(cursor.getColumnIndexOrThrow(ConstanseDb.TODAY_COLUMN_NAME_HOUR))
+            cl.id = cursor.getInt(cursor.getColumnIndexOrThrow("_id"))
+
+            list.add(cl)
+        }
+
+        cursor.close()
+        return list
+    }
+    fun todayWeatherUpdateToDb(newClimate: climate){
+        val selection = BaseColumns._ID + "=${newClimate.id}"
+
+        val values = ContentValues().apply {
+            put(ConstanseDb.TODAY_COLUMN_NAME_TEMP, newClimate.temp)
+            put(ConstanseDb.TODAY_COLUMN_NAME_TEMP_FEELS_LIKE, newClimate.feelslike)
+            put(ConstanseDb.TODAY_COLUMN_NAME_WIND, newClimate.wind)
+            put(ConstanseDb.TODAY_COLUMN_NAME_PRESSURE, newClimate.pressure)
+            put(ConstanseDb.TODAY_COLUMN_NAME_HUMIDITY, newClimate.humidity)
+            put(ConstanseDb.TODAY_COLUMN_NAME_WEATHER, newClimate.weather)
+            put(ConstanseDb.TODAY_COLUMN_NAME_HOUR, newClimate.hour)
+
+        }
+        db?.update(ConstanseDb.TODAY_TABLE_NAME, values, selection, null)
+    }
+
 }

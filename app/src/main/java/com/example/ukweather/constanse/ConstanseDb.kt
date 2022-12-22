@@ -4,7 +4,7 @@ import android.provider.BaseColumns
 
 object ConstanseDb {
     const val DATABASE_NAME = "DbWeather.db"
-    const val DATABASE_VERSION = 12
+    const val DATABASE_VERSION = 14
 
 
     const val TIME_TABLE_NAME = "time_to_modifier"
