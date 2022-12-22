@@ -47,4 +47,50 @@ object ConstanseDb {
             "$CURRENT_TEMP_COLUMN_NAME_LOCATE_NAME TEXT)"
 
     const val CURRENT_TEMP_SQL_DELETE_TABLE = "DROP TABLE IF EXISTS $CURRENT_TEMP_TABLE_NAME"
+
+
+    //--------------------------TODAY WEATHER CONST------------------\\
+
+
+    const val TODAY_TABLE_NAME = "today_weather"
+
+    const val TODAY_COLUMN_NAME_TEMP = "temp"
+    const val TODAY_COLUMN_NAME_TEMP_FEELS_LIKE = "feels_like"
+    const val TODAY_COLUMN_NAME_WIND = "wind"
+    const val TODAY_COLUMN_NAME_PRESSURE = "pressure"
+    const val TODAY_COLUMN_NAME_HUMIDITY = "humidity"
+    const val TODAY_COLUMN_NAME_WEATHER = "weather"
+    const val TODAY_COLUMN_NAME_HOUR = "hour"
+
+
+    const val TODAY_CREATE_TABLE = "CREATE TABLE IF NOT EXISTS $TODAY_TABLE_NAME (" +
+            "${BaseColumns._ID} INTEGER PRIMARY KEY," +
+            "$TODAY_COLUMN_NAME_TEMP INT," +
+            "$TODAY_COLUMN_NAME_TEMP_FEELS_LIKE INT," +
+            "$TODAY_COLUMN_NAME_PRESSURE INT," +
+            "$TODAY_COLUMN_NAME_HUMIDITY INT," +
+            "$TODAY_COLUMN_NAME_WIND INT,"+
+            "$TODAY_COLUMN_NAME_WEATHER TEXT,"+
+            "$TODAY_COLUMN_NAME_HOUR INT)"
+
+    const val TODAY_SQL_DELETE_TABLE = "DROP TABLE IF EXISTS $TODAY_TABLE_NAME"
+
+
+    //----------------- today date
+
+
+    const val TODAY_TIME_TABLE_NAME = "today_time_to_modifier"
+
+    const val TODAY_TIME_COLUMN_NAME_HOUR = "hour"
+    const val TODAY_TIME_COLUMN_NAME_DAY = "day"
+    const val TODAY_TIME_COLUMN_NAME_WEEK = "week"
+
+
+    const val TODAY_TIME_CREATE_TABLE = "CREATE TABLE IF NOT EXISTS $TODAY_TIME_TABLE_NAME (" +
+            "${BaseColumns._ID} INTEGER PRIMARY KEY," +
+            "$TODAY_TIME_COLUMN_NAME_HOUR INT," +
+            "$TODAY_TIME_COLUMN_NAME_DAY INT," +
+            "$TODAY_TIME_COLUMN_NAME_WEEK INT)"
+
+    const val TODAY_TIME_SQL_DELETE_TABLE = "DROP TABLE IF EXISTS $TIME_TABLE_NAME"
 }
