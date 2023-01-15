@@ -27,7 +27,7 @@ fun itemWeather(todayClimateOfThreeHours: climate, context: Context) {
 
     val weatherIc = todayClimateOfThreeHours.icon
     val weatherD = todayClimateOfThreeHours.weather
-    val weatherT = todayClimateOfThreeHours.date
+    val weatherT = todayClimateOfThreeHours.hour
 
 
 

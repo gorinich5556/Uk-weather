@@ -259,7 +259,7 @@ fun getResult(locate:String, context: Context, nowClimate: MutableState<climate>
                             val regex = Regex("\\s\\d\\d:\\d\\d")
                             val weatherT = regex.find(weatherTime)?.value
 
-                            newTodayItem.date = weatherT.toString()
+                            newTodayItem.hour = weatherT.toString()
 
                             /*
                               val weatherTime = todayClimateOfThreeHours.getString("dt_txt")
@@ -276,7 +276,6 @@ fun getResult(locate:String, context: Context, nowClimate: MutableState<climate>
                             Log.d("ml", "weather is: ${newTodayItem.weather}")
                             Log.d("ml", "weather is: ${newTodayItem.icon}")
                             Log.d("ml", "weather is: ${newTodayItem.feelslike}")
-                            Log.d("ml", "weather is: ${newTodayItem.date}")
                         }
 
                         //todayClimate.value = list

@@ -141,7 +141,7 @@ class DbManager(context: Context) {
             cl.pressure = cursor.getInt(cursor.getColumnIndexOrThrow(ConstanseDb.TODAY_COLUMN_NAME_PRESSURE))
             cl.humidity = cursor.getInt(cursor.getColumnIndexOrThrow(ConstanseDb.TODAY_COLUMN_NAME_HUMIDITY))
             cl.weather = cursor.getString(cursor.getColumnIndexOrThrow(ConstanseDb.TODAY_COLUMN_NAME_WEATHER))
-            cl.hour = cursor.getInt(cursor.getColumnIndexOrThrow(ConstanseDb.TODAY_COLUMN_NAME_HOUR))
+            cl.hour = cursor.getString(cursor.getColumnIndexOrThrow(ConstanseDb.TODAY_COLUMN_NAME_HOUR))
             cl.id = cursor.getInt(cursor.getColumnIndexOrThrow("_id"))
 
             list.add(cl)

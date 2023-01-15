@@ -9,7 +9,6 @@ class climate {
     var pressure = 0
     var name = ""
     var id = 0
-    var hour = 0
+    var hour = ""
     var icon = 0
-    var date = ""
 }
