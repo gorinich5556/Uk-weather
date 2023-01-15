@@ -14,8 +14,9 @@ import com.example.ukweather.getWeather.climate
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.*
+import kotlin.collections.ArrayList
 
-fun getResult(locate:String, context: Context, nowClimate: MutableState<climate>, myDbManager: DbManager, whil: String, todayClimate: MutableState<ArrayList<JSONObject>>){
+fun getResult(locate:String, context: Context, nowClimate: MutableState<climate>, myDbManager: DbManager, whil: String, todayClimate: MutableState<ArrayList<climate>>){
     var url = "empty"
     val queue = Volley.newRequestQueue(context)
 
@@ -146,20 +147,151 @@ fun getResult(locate:String, context: Context, nowClimate: MutableState<climate>
 
                 }
                 ConstanseWeather.FORECAST_OF_DAY ->{
-                    val jsonArray = obj.getJSONArray("list")
+
+                    //Default questions
+
+                    val todayLastSave = myDbManager.readDbData(ConstanseDb.TODAY_TIME_TABLE_NAME)
+
+                    //Functions
+
+                    fun GetNewInfo(): ArrayList<climate> {
+                        val jsonArray = obj.getJSONArray("list")
 
 
-                    val howMuchShow = (24.0 - hoursNow) / 3
-                    val result = Math.ceil(howMuchShow).toInt()
-                    //Log.d("ml", "how much show after: $result")
+                        val howMuchShow = (24.0 - hoursNow) / 3
+                        val result = Math.ceil(howMuchShow).toInt()
+                        //Log.d("ml", "how much show after: $result")
 
-                    val list = arrayListOf<JSONObject>()
+                        val list = arrayListOf<JSONObject>()
+                        val weatherList = arrayListOf<climate>()
 
-                    for(i in 0..result-1){
-                        list.add(jsonArray.getJSONObject(i))
+                        for (i in 0..result - 1) {
+                            list.add(jsonArray.getJSONObject(i))
+                            
+                            val newTodayItem = climate()
+                            newTodayItem.temp = jsonArray.getJSONObject(i).getJSONObject("main").getInt("temp")
+                            newTodayItem.feelslike = jsonArray.getJSONObject(i).getJSONObject("main").getInt("feels_like")
+
+                            var weatherD = ""
+                            var weatherIc = 0
+                            val weatherIcon = jsonArray.getJSONObject(i).getJSONArray("weather").getJSONObject(0).getString("icon")
+                            when(weatherIcon){
+                                "01d" -> {
+                                    weatherIc = R.drawable._01d
+                                    weatherD = context.getString(R.string.clearDay)
+                                }
+                                "01n" -> {
+                                    weatherIc = R.drawable._01n
+                                    weatherD = context.getString(R.string.clearNight)
+                                }
+                                "02d" -> {
+                                    weatherIc = R.drawable._02d
+                                    weatherD = context.getString(R.string.fewClouds)
+                                }
+                                "02n" -> {
+                                    weatherIc = R.drawable._02n
+                                    weatherD = context.getString(R.string.fewClouds)
+                                }
+                                "03d" -> {
+                                    weatherIc = R.drawable._03d
+                                    weatherD = context.getString(R.string.clouds)
+                                }
+                                "03n" -> {
+                                    weatherIc = R.drawable._03d
+                                    weatherD = context.getString(R.string.clouds)
+                                }
+                                "04d" -> {
+                                    weatherIc = R.drawable._04d
+                                    weatherD = context.getString(R.string.brokenClouds)
+                                }
+                                "04n" -> {
+                                    weatherIc = R.drawable._04d
+                                    weatherD = context.getString(R.string.brokenClouds)
+                                }
+                                "09d" -> {
+                                    weatherIc = R.drawable._09d
+                                    weatherD = context.getString(R.string.showerRain)
+                                }
+                                "09n" -> {
+                                    weatherIc = R.drawable._09d
+                                    weatherD = context.getString(R.string.showerRain)
+                                }
+                                "10d" -> {
+                                    weatherIc = R.drawable._10d
+                                    weatherD = context.getString(R.string.rain)
+                                }
+                                "10n" -> {
+                                    weatherIc = R.drawable._10n
+                                    weatherD = context.getString(R.string.rain)
+                                }
+                                "11d" -> {
+                                    weatherIc = R.drawable._11d
+                                    weatherD = context.getString(R.string.thunderstorm)
+                                }
+                                "11n" -> {
+                                    weatherIc = R.drawable._11d
+                                    weatherD = context.getString(R.string.thunderstorm)
+                                }
+                                "13d" -> {
+                                    weatherIc = R.drawable._13d
+                                    weatherD = context.getString(R.string.snow)
+                                }
+                                "13n" -> {
+                                    weatherIc = R.drawable._13d
+                                    weatherD = context.getString(R.string.snow)
+                                }
+                                "50d" -> {
+                                    weatherIc = R.drawable._50d
+                                    weatherD = context.getString(R.string.mist)
+                                }
+                                "50n" -> {
+                                    weatherIc = R.drawable._50d
+                                    weatherD = context.getString(R.string.mist)
+                                }
+                            }
+                            newTodayItem.weather = weatherD
+                            newTodayItem.humidity = Math.round(jsonArray.getJSONObject(i).getJSONObject("main").getString("humidity").toDouble()).toInt()
+                            newTodayItem.pressure = Math.round(jsonArray.getJSONObject(i).getJSONObject("main").getString("pressure").toDouble()).toInt()
+                            newTodayItem.icon = weatherIc
+
+                            val weatherTime = jsonArray.getJSONObject(i).getString("dt_txt")
+
+                            val regex = Regex("\\s\\d\\d:\\d\\d")
+                            val weatherT = regex.find(weatherTime)?.value
+
+                            newTodayItem.date = weatherT.toString()
+
+                            /*
+                              val weatherTime = todayClimateOfThreeHours.getString("dt_txt")
+
+                              val regex = Regex("\\s\\d\\d:\\d\\d")
+                              val weatherT = regex.find(weatherTime)
+                             */
+                            
+                            weatherList.add(newTodayItem)
+                            Log.d("ml", "weather is: ${newTodayItem.temp}")
+                            Log.d("ml", "weather is: ${newTodayItem.humidity }")
+                            Log.d("ml", "weather is: ${newTodayItem.pressure}")
+                            Log.d("ml", "weather is: ${newTodayItem.wind}")
+                            Log.d("ml", "weather is: ${newTodayItem.weather}")
+                            Log.d("ml", "weather is: ${newTodayItem.icon}")
+                            Log.d("ml", "weather is: ${newTodayItem.feelslike}")
+                            Log.d("ml", "weather is: ${newTodayItem.date}")
+                        }
+
+                        //todayClimate.value = list
+                        return weatherList
                     }
 
-                    todayClimate.value = list
+                    //-------------INSPECTIONS-------------
+
+                    if(todayLastSave != null){
+
+                    } else{
+                        val newWeather = GetNewInfo()
+                        todayClimate.value = newWeather
+
+                    }
                 }
                 ConstanseWeather.FORECAST_OF_WEEK ->{
 

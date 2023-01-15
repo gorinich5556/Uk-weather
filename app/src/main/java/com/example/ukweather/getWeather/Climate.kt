@@ -10,4 +10,6 @@ class climate {
     var name = ""
     var id = 0
     var hour = 0
+    var icon = 0
+    var date = ""
 }

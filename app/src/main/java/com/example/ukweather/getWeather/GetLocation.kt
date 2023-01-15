@@ -17,7 +17,7 @@ import com.google.android.gms.tasks.CancellationTokenSource
 import org.json.JSONArray
 import org.json.JSONObject
 
-class getLocation(contextM: Context, nowClimate: MutableState<climate>, todayClimate: MutableState<ArrayList<JSONObject>>) {
+class getLocation(contextM: Context, nowClimate: MutableState<climate>, todayClimate: MutableState<ArrayList<climate>>) {
     private lateinit var fLocationClient : FusedLocationProviderClient
     var contextGL = contextM
     var climateState = nowClimate

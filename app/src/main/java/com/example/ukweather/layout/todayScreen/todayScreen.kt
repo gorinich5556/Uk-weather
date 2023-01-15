@@ -32,7 +32,7 @@ import java.util.*
 
 @ExperimentalMaterialApi
 @Composable
-fun todayScreen(context: Context, navController: NavController, nowClimate: MutableState<climate>, todayClimate: MutableState<ArrayList<JSONObject>>) {
+fun todayScreen(context: Context, navController: NavController, nowClimate: MutableState<climate>, todayClimate: MutableState<ArrayList<climate>>) {
     val gradientGrayWhite = Brush.verticalGradient(0f to backgroundDarkBlue, 1000f to backgroundLightBlue)
     val scaffoldState = rememberBottomSheetScaffoldState()
     val calendar: Calendar = GregorianCalendar.getInstance()

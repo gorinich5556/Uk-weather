@@ -18,7 +18,7 @@ import org.json.JSONObject
 
 @ExperimentalMaterialApi
 @Composable
-fun Navigation(context: Context, nowClim: MutableState<climate>, todayClimate: MutableState<ArrayList<JSONObject>>) {
+fun Navigation(context: Context, nowClim: MutableState<climate>, todayClimate: MutableState<ArrayList<climate>>) {
     val contextM = context
     val nowClimate = nowClim
     val navController = rememberNavController()

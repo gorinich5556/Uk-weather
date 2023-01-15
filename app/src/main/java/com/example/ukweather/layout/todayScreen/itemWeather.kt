@@ -16,97 +16,21 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ukweather.R
+import com.example.ukweather.getWeather.climate
 import com.example.ukweather.ui.theme.blue2
 import com.example.ukweather.ui.theme.white
 import org.json.JSONObject
 import java.util.regex.Pattern
 
 @Composable
-fun itemWeather(todayClimateOfThreeHours: JSONObject, context: Context) {
-    val weather = todayClimateOfThreeHours.getJSONArray("weather").getJSONObject(0)
-    val weatherIcon = weather.getString("icon")
-    val weatherDesc = weather.getString("main")
-    val weatherTime = todayClimateOfThreeHours.getString("dt_txt")
+fun itemWeather(todayClimateOfThreeHours: climate, context: Context) {
 
-    val regex = Regex("\\s\\d\\d:\\d\\d")
-    val weatherT = regex.find(weatherTime)
+    val weatherIc = todayClimateOfThreeHours.icon
+    val weatherD = todayClimateOfThreeHours.weather
+    val weatherT = todayClimateOfThreeHours.date
 
-    var weatherD = ""
-    var weatherIc = 0
-    when(weatherIcon){
-        "01d" -> {
-            weatherIc = R.drawable._01d
-            weatherD = context.getString(R.string.clearDay)
-        }
-        "01n" -> {
-            weatherIc = R.drawable._01n
-            weatherD = context.getString(R.string.clearNight)
-        }
-        "02d" -> {
-            weatherIc = R.drawable._02d
-            weatherD = context.getString(R.string.fewClouds)
-        }
-        "02n" -> {
-            weatherIc = R.drawable._02n
-            weatherD = context.getString(R.string.fewClouds)
-        }
-        "03d" -> {
-            weatherIc = R.drawable._03d
-            weatherD = context.getString(R.string.clouds)
-        }
-        "03n" -> {
-            weatherIc = R.drawable._03d
-            weatherD = context.getString(R.string.clouds)
-        }
-        "04d" -> {
-            weatherIc = R.drawable._04d
-            weatherD = context.getString(R.string.brokenClouds)
-        }
-        "04n" -> {
-            weatherIc = R.drawable._04d
-            weatherD = context.getString(R.string.brokenClouds)
-        }
-        "09d" -> {
-            weatherIc = R.drawable._09d
-            weatherD = context.getString(R.string.showerRain)
-        }
-        "09n" -> {
-            weatherIc = R.drawable._09d
-            weatherD = context.getString(R.string.showerRain)
-        }
-        "10d" -> {
-            weatherIc = R.drawable._10d
-            weatherD = context.getString(R.string.rain)
-        }
-        "10n" -> {
-            weatherIc = R.drawable._10n
-            weatherD = context.getString(R.string.rain)
-        }
-        "11d" -> {
-            weatherIc = R.drawable._11d
-            weatherD = context.getString(R.string.thunderstorm)
-        }
-        "11n" -> {
-            weatherIc = R.drawable._11d
-            weatherD = context.getString(R.string.thunderstorm)
-        }
-        "13d" -> {
-            weatherIc = R.drawable._13d
-            weatherD = context.getString(R.string.snow)
-        }
-        "13n" -> {
-            weatherIc = R.drawable._13d
-            weatherD = context.getString(R.string.snow)
-        }
-        "50d" -> {
-            weatherIc = R.drawable._50d
-            weatherD = context.getString(R.string.mist)
-        }
-        "50n" -> {
-            weatherIc = R.drawable._50d
-            weatherD = context.getString(R.string.mist)
-        }
-    }
+
+
 
     BoxWithConstraints() {
         val boxWithConstraintsScope = this
@@ -120,7 +44,7 @@ fun itemWeather(todayClimateOfThreeHours: JSONObject, context: Context) {
                         .border(BorderStroke(3.dp, blue2))
                         .verticalScroll(rememberScrollState())
                 ) {
-                    topPart(weatherIc, weatherD, weatherT?.value)
+                    topPart(weatherIc, weatherD, weatherT)
                     bottomPart(boxWithConstraintsScope, context, todayClimateOfThreeHours)
                 }
             } else {
@@ -130,7 +54,7 @@ fun itemWeather(todayClimateOfThreeHours: JSONObject, context: Context) {
                         .width(180.dp)
                         .border(BorderStroke(3.dp, blue2))
                 ) {
-                    topPart(weatherIc, weatherD, weatherT?.value)
+                    topPart(weatherIc, weatherD, weatherT)
                     bottomPart(boxWithConstraintsScope, context, todayClimateOfThreeHours)
                 }
             }
@@ -200,7 +124,7 @@ fun topPart(weatherIc: Int, weather: String, weatherT: String?){
 }
 
 @Composable
-fun bottomPart(boxWithConstraintsScope:  BoxWithConstraintsScope, context: Context, weather: JSONObject){
+fun bottomPart(boxWithConstraintsScope:  BoxWithConstraintsScope, context: Context, weather: climate){
     if(boxWithConstraintsScope.maxHeight >= 300.dp){
         Column(
             modifier = Modifier
@@ -208,22 +132,22 @@ fun bottomPart(boxWithConstraintsScope:  BoxWithConstraintsScope, context: Conte
                 .fillMaxSize(),
             verticalArrangement = Arrangement.SpaceBetween,
         ) {
-            param(context.getString(R.string.weather_temp), (Math.round(weather.getJSONObject("main").getString("temp").toDouble())).toString() + "°")
-            param(context.getString(R.string.weather_feelslike), (Math.round(weather.getJSONObject("main").getString("feels_like").toDouble())).toString() + "°")
-            param(context.getString(R.string.weather_winter), (Math.round(weather.getJSONObject("wind").getString("speed").toDouble())).toString() + "м/с")
-            param(context.getString(R.string.weather_humidity), (Math.round(weather.getJSONObject("main").getString("humidity").toDouble())).toString() + "%")
-            param(context.getString(R.string.weather_pressure), (Math.round(weather.getJSONObject("main").getString("pressure").toDouble())).toString() + "мм")
+            param(context.getString(R.string.weather_temp), weather.temp.toString() + "°")
+            param(context.getString(R.string.weather_feelslike), weather.feelslike.toString() + "°")
+            param(context.getString(R.string.weather_winter), weather.wind.toString() + "м/с")
+            param(context.getString(R.string.weather_humidity), weather.humidity.toString() + "%")
+            param(context.getString(R.string.weather_pressure), weather.pressure.toString() + "мм")
         }
     }else{
         Column(
             modifier = Modifier
                 .padding(start = 10.dp, bottom = 12.dp, top = 5.dp)
         ) {
-            param(context.getString(R.string.weather_temp), (Math.round(weather.getJSONObject("main").getString("temp").toDouble())).toString() + "°")
-            param(context.getString(R.string.weather_feelslike), (Math.round(weather.getJSONObject("main").getString("feels_like").toDouble())).toString() + "°")
-            param(context.getString(R.string.weather_winter), (Math.round(weather.getJSONObject("wind").getString("speed").toDouble())).toString() + "м/с")
-            param(context.getString(R.string.weather_humidity), (Math.round(weather.getJSONObject("main").getString("humidity").toDouble())).toString() + "%")
-            param(context.getString(R.string.weather_pressure), (Math.round(weather.getJSONObject("main").getString("pressure").toDouble())).toString() + "мм")
+            param(context.getString(R.string.weather_temp), weather.temp.toString() + "°")
+            param(context.getString(R.string.weather_feelslike), weather.feelslike.toString() + "°")
+            param(context.getString(R.string.weather_winter), weather.wind.toString() + "м/с")
+            param(context.getString(R.string.weather_humidity), weather.humidity.toString() + "%")
+            param(context.getString(R.string.weather_pressure), weather.pressure.toString() + "мм")
         }
     }
 }

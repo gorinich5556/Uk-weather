@@ -30,6 +30,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        Log.d("ml", "test")
+
         registerPermissionListener()
         chekPermission()
 
@@ -51,7 +53,7 @@ class MainActivity : ComponentActivity() {
 
                 setContent {
                     val climateState = remember { mutableStateOf(climate()) }
-                    val todayClimate = remember { mutableStateOf(ArrayList<JSONObject>()) }
+                    val todayClimate = remember { mutableStateOf(ArrayList<climate>()) }
                     val getLoc = getLocation(this, climateState, todayClimate)
                     getLoc.init()
                     getLoc.getLoc(ConstanseWeather.CURRENT_WEATHER)
@@ -90,7 +92,7 @@ class MainActivity : ComponentActivity() {
 
                 setContent {
                     val climateState = remember { mutableStateOf(climate()) }
-                    val todayClimate = remember { mutableStateOf(ArrayList<JSONObject>()) }
+                    val todayClimate = remember { mutableStateOf(ArrayList<climate>()) }
                     val getLoc = getLocation(this, climateState, todayClimate)
                     getLoc.init()
                     getLoc.getLoc(ConstanseWeather.CURRENT_WEATHER)

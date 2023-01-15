@@ -24,15 +24,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ukweather.R
+import com.example.ukweather.getWeather.climate
 import com.example.ukweather.ui.theme.blue2
 import com.example.ukweather.ui.theme.white
 import org.json.JSONObject
 import java.util.*
 
 @Composable
-fun lazyRowForShowWeather(todayClimate: MutableState<ArrayList<JSONObject>>, context: Context) {
+fun lazyRowForShowWeather(todayClimate: MutableState<ArrayList<climate>>, context: Context) {
 
-    val test_list = arrayListOf<Int>(0, 1, 2,)
     Box(
         modifier = Modifier
             //.padding(bottom = 50.dp)
