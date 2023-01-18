@@ -8,6 +8,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.MutableState
 import androidx.core.app.ActivityCompat
+import com.example.ukweather.constanse.ConstanseDb
 import com.example.ukweather.db.DbManager
 import com.example.ukweather.getResult
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -23,16 +24,12 @@ class getLocation(contextM: Context, nowClimate: MutableState<climate>, todayCli
     var climateState = nowClimate
     val todayClimate = todayClimate
     val dbManager = DbManager(contextM)
-    fun init(){
+    fun getLoc(){
         fLocationClient = LocationServices.getFusedLocationProviderClient(contextGL)
-    }
-    fun getLoc(forWeather: String){
         if(!isLocationEnabled()){
             Toast.makeText(contextGL, "Увімкніть GPS", Toast.LENGTH_SHORT).show()
-            //Log.d("ml", "справи бажають кращого :(")
             return
         }else {
-            //Log.d("ml", "це працює!! :) :) :)")
             val ct = CancellationTokenSource()
             if (ActivityCompat.checkSelfPermission(
                     contextGL,
@@ -48,12 +45,21 @@ class getLocation(contextM: Context, nowClimate: MutableState<climate>, todayCli
                 .getCurrentLocation(LocationRequest.PRIORITY_HIGH_ACCURACY, ct.token)
                 .addOnCompleteListener {
                     //Log.d("ml", "да вопще афігенно ")
+                    Log.d("ml", "location found")
                         getResult(
                             "lat=${it.result.latitude}&lon=${it.result.longitude}",
                             contextGL,
                             climateState,
                             dbManager,
-                            forWeather,
+                            ConstanseDb.TIME_COLUMN_VALUE_CURRENT_FOR,
+                            todayClimate
+                        )
+                        getResult(
+                            "lat=${it.result.latitude}&lon=${it.result.longitude}",
+                            contextGL,
+                            climateState,
+                            dbManager,
+                            ConstanseDb.TIME_COLUMN_VALUE_TODAY_FOR,
                             todayClimate
                         )
 

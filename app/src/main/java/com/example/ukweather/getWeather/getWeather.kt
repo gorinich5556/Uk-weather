@@ -108,7 +108,7 @@ fun getResult(locate:String, context: Context, nowClimate: MutableState<climate>
                     if(timeLastSave != null) {
                         if (timeLastSave.week == weekNow) {
                             if (timeLastSave.day == dayNow) {
-                                if ((hoursNow - timeLastSave.time) >= 2) {
+                                if ((hoursNow - timeLastSave.time) >= 1) {
                                     nowClimate.value = newClimate
                                     myDbManager.updateDataToDb(newTime)
                                     myDbManager.currentTempUpdateToDb(newClimate)
@@ -330,6 +330,7 @@ fun getResult(locate:String, context: Context, nowClimate: MutableState<climate>
                             queue.add(stringRequest)
                         } else {
                             val oldClimate = myDbManager.currentTempReadDbData()
+                            Log.d("ml", "old temp is: ${oldClimate.temp}")
                             nowClimate.value = oldClimate
                         }
                     } else {

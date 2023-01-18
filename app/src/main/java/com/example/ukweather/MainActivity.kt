@@ -56,9 +56,7 @@ class MainActivity : ComponentActivity() {
                     val climateState = remember { mutableStateOf(climate()) }
                     val todayClimate = remember { mutableStateOf(ArrayList<climate>()) }
                     val getLoc = getLocation(this, climateState, todayClimate)
-                    getLoc.init()
-                    getLoc.getLoc(ConstanseWeather.CURRENT_WEATHER)
-                    getLoc.getLoc(ConstanseWeather.FORECAST_OF_DAY)
+                    getLoc.getLoc()
 
                     Navigation(this, climateState, todayClimate)
                 }
@@ -95,9 +93,7 @@ class MainActivity : ComponentActivity() {
                     val climateState = remember { mutableStateOf(climate()) }
                     val todayClimate = remember { mutableStateOf(ArrayList<climate>()) }
                     val getLoc = getLocation(this, climateState, todayClimate)
-                    getLoc.init()
-                    getLoc.getLoc(ConstanseWeather.CURRENT_WEATHER)
-                    getLoc.getLoc(ConstanseWeather.FORECAST_OF_DAY)
+                    getLoc.getLoc()
 
                     Navigation(this, climateState, todayClimate)
                 }
