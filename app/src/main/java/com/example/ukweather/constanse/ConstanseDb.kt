@@ -4,7 +4,7 @@ import android.provider.BaseColumns
 
 object ConstanseDb {
     const val DATABASE_NAME = "DbWeather.db"
-    const val DATABASE_VERSION = 17
+    const val DATABASE_VERSION = 18
 
 
     const val TIME_TABLE_NAME = "time_to_modifier"
@@ -78,22 +78,4 @@ object ConstanseDb {
 
     const val TODAY_SQL_DELETE_TABLE = "DROP TABLE IF EXISTS $TODAY_TABLE_NAME"
 
-
-    //----------------- today date
-
-
-    const val TODAY_TIME_TABLE_NAME = "today_time_to_modifier"
-
-    const val TODAY_TIME_COLUMN_NAME_HOUR = "hour"
-    const val TODAY_TIME_COLUMN_NAME_DAY = "day"
-    const val TODAY_TIME_COLUMN_NAME_WEEK = "week"
-
-
-    const val TODAY_TIME_CREATE_TABLE = "CREATE TABLE IF NOT EXISTS $TODAY_TIME_TABLE_NAME (" +
-            "${BaseColumns._ID} INTEGER PRIMARY KEY," +
-            "$TODAY_TIME_COLUMN_NAME_HOUR INT," +
-            "$TODAY_TIME_COLUMN_NAME_DAY INT," +
-            "$TODAY_TIME_COLUMN_NAME_WEEK INT)"
-
-    const val TODAY_TIME_SQL_DELETE_TABLE = "DROP TABLE IF EXISTS $TIME_TABLE_NAME"
 }
