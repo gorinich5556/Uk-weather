@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.provider.BaseColumns
+import android.util.Log
 import com.example.ukweather.constanse.ConstanseDb
 import com.example.ukweather.getWeather.climate
 
@@ -14,6 +15,12 @@ class DbManager(context: Context) {
     fun openDb(){
         db = myDbHelper.writableDatabase
     }
+
+    fun deleteAllFromTable(tableName: String){
+        Log.d("ml", "delete all info")
+        db?.execSQL("delete from " + tableName)
+    }
+
     fun insertToDb(use: String, time: Int, day: Int, week: Int){
         val values = ContentValues().apply {
             put(ConstanseDb.TIME_COLUMN_NAME_FOR, use)
@@ -45,14 +52,16 @@ class DbManager(context: Context) {
         return time
     }
     fun updateDataToDb(timeNew: timeNow){
-        val selection = BaseColumns._ID + "=${timeNew.id}"
+        val selection = "${ConstanseDb.TIME_COLUMN_NAME_FOR} LIKE ?"
+        val selectionArgs = arrayOf(timeNew.fore)
+        Log.d("ml", "time new hour is: ${timeNew.time}")
         val values = ContentValues().apply {
             put(ConstanseDb.TIME_COLUMN_NAME_FOR, timeNew.fore)
             put(ConstanseDb.TIME_COLUMN_NAME_TIME, timeNew.time)
             put(ConstanseDb.TIME_COLUMN_NAME_DAY, timeNew.day)
             put(ConstanseDb.TIME_COLUMN_NAME_WEEK, timeNew.week)
         }
-        db?.update(ConstanseDb.TIME_TABLE_NAME, values, selection, null)
+        db?.update(ConstanseDb.TIME_TABLE_NAME, values, selection, selectionArgs)
     }
     fun closeDb(){
         myDbHelper.close()
@@ -122,6 +131,7 @@ class DbManager(context: Context) {
             put(ConstanseDb.TODAY_COLUMN_NAME_PRESSURE, climate.pressure)
             put(ConstanseDb.TODAY_COLUMN_NAME_HUMIDITY, climate.humidity)
             put(ConstanseDb.TODAY_COLUMN_NAME_WEATHER, climate.weather)
+            put(ConstanseDb.TODAY_COLUMN_NAME_ICON, climate.icon)
             put(ConstanseDb.TODAY_COLUMN_NAME_HOUR, climate.hour)
         }
         db?.insert(ConstanseDb.TODAY_TABLE_NAME, null, values)
@@ -142,6 +152,7 @@ class DbManager(context: Context) {
             cl.humidity = cursor.getInt(cursor.getColumnIndexOrThrow(ConstanseDb.TODAY_COLUMN_NAME_HUMIDITY))
             cl.weather = cursor.getString(cursor.getColumnIndexOrThrow(ConstanseDb.TODAY_COLUMN_NAME_WEATHER))
             cl.hour = cursor.getString(cursor.getColumnIndexOrThrow(ConstanseDb.TODAY_COLUMN_NAME_HOUR))
+            cl.icon = cursor.getInt(cursor.getColumnIndexOrThrow(ConstanseDb.TODAY_COLUMN_NAME_ICON))
             cl.id = cursor.getInt(cursor.getColumnIndexOrThrow("_id"))
 
             list.add(cl)
@@ -150,20 +161,4 @@ class DbManager(context: Context) {
         cursor.close()
         return list
     }
-    fun todayWeatherUpdateToDb(newClimate: climate){
-        val selection = BaseColumns._ID + "=${newClimate.id}"
-
-        val values = ContentValues().apply {
-            put(ConstanseDb.TODAY_COLUMN_NAME_TEMP, newClimate.temp)
-            put(ConstanseDb.TODAY_COLUMN_NAME_TEMP_FEELS_LIKE, newClimate.feelslike)
-            put(ConstanseDb.TODAY_COLUMN_NAME_WIND, newClimate.wind)
-            put(ConstanseDb.TODAY_COLUMN_NAME_PRESSURE, newClimate.pressure)
-            put(ConstanseDb.TODAY_COLUMN_NAME_HUMIDITY, newClimate.humidity)
-            put(ConstanseDb.TODAY_COLUMN_NAME_WEATHER, newClimate.weather)
-            put(ConstanseDb.TODAY_COLUMN_NAME_HOUR, newClimate.hour)
-
-        }
-        db?.update(ConstanseDb.TODAY_TABLE_NAME, values, selection, null)
-    }
-
 }

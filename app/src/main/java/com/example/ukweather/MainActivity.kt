@@ -20,6 +20,7 @@ import com.example.ukweather.db.timeNow
 import com.example.ukweather.getWeather.climate
 import com.example.ukweather.getWeather.getLocation
 import org.json.JSONObject
+import java.lang.Math.abs
 import java.util.*
 
 class MainActivity : ComponentActivity() {

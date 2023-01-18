@@ -15,19 +15,22 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.math.abs
 
 fun getResult(locate:String, context: Context, nowClimate: MutableState<climate>, myDbManager: DbManager, whil: String, todayClimate: MutableState<ArrayList<climate>>){
     var url = "empty"
     val queue = Volley.newRequestQueue(context)
 
     myDbManager.openDb()
-    var timeLastSave = myDbManager.readDbData(ConstanseDb.TIME_COLUMN_VALUE_CURRENT_FOR)
 
     val calendar: Calendar = GregorianCalendar.getInstance()
     val hoursNow = calendar.get(Calendar.HOUR_OF_DAY)
     val dayNow = calendar.get(Calendar.DAY_OF_WEEK)
     val weekNow = calendar.get(Calendar.WEEK_OF_YEAR)
-    val minutesNow = calendar.get(Calendar.MINUTE)
+    val newTime = timeNow()
+    newTime.week = weekNow
+    newTime.day = dayNow
+    newTime.time = hoursNow
     Log.d("ml", "hour n: $hoursNow")
 
     when(whil){
@@ -56,6 +59,10 @@ fun getResult(locate:String, context: Context, nowClimate: MutableState<climate>
 
             when(whil){
                 ConstanseWeather.CURRENT_WEATHER ->{
+                    newTime.id = 1
+                    newTime.fore = ConstanseDb.TIME_COLUMN_VALUE_CURRENT_FOR
+
+                    val timeLastSave = myDbManager.readDbData(ConstanseDb.TIME_COLUMN_VALUE_CURRENT_FOR)
 
                     val tempF = (obj.getJSONObject("main")).getString("temp")
                     val tempFell = (obj.getJSONObject("main")).getString("feels_like")
@@ -103,35 +110,17 @@ fun getResult(locate:String, context: Context, nowClimate: MutableState<climate>
                             if (timeLastSave.day == dayNow) {
                                 if ((hoursNow - timeLastSave.time) >= 2) {
                                     nowClimate.value = newClimate
-                                    val timeNowe = timeNow()
-                                    timeNowe.fore = ConstanseDb.TIME_COLUMN_VALUE_CURRENT_FOR
-                                    timeNowe.week = weekNow
-                                    timeNowe.time = hoursNow
-                                    timeNowe.day = dayNow
-                                    timeNowe.id = 1
-                                    myDbManager.updateDataToDb(timeNowe)
+                                    myDbManager.updateDataToDb(newTime)
                                     myDbManager.currentTempUpdateToDb(newClimate)
                                 }
                             } else {
                                 nowClimate.value = newClimate
-                                val timeNower = timeNow()
-                                timeNower.fore = ConstanseDb.TIME_COLUMN_VALUE_CURRENT_FOR
-                                timeNower.week = weekNow
-                                timeNower.time = hoursNow
-                                timeNower.day = dayNow
-                                timeNower.id = 1
-                                myDbManager.updateDataToDb(timeNower)
+                                myDbManager.updateDataToDb(newTime)
                                 myDbManager.currentTempUpdateToDb(newClimate)
                             }
                         } else {
                             nowClimate.value = newClimate
-                            val timeNowh = timeNow()
-                            timeNowh.fore = ConstanseDb.TIME_COLUMN_VALUE_CURRENT_FOR
-                            timeNowh.week = weekNow
-                            timeNowh.time = hoursNow
-                            timeNowh.day = dayNow
-                            timeNowh.id = 1
-                            myDbManager.updateDataToDb(timeNowh)
+                            myDbManager.updateDataToDb(newTime)
                             myDbManager.currentTempUpdateToDb(newClimate)
                         }
                     } else {
@@ -147,10 +136,12 @@ fun getResult(locate:String, context: Context, nowClimate: MutableState<climate>
 
                 }
                 ConstanseWeather.FORECAST_OF_DAY ->{
+                    Log.d("ml", "fffjsss")
+                    //Default quest
 
-                    //Default questions
 
-                    val todayLastSave = myDbManager.readDbData(ConstanseDb.TODAY_TIME_TABLE_NAME)
+                    newTime.fore = ConstanseDb.TIME_COLUMN_VALUE_TODAY_FOR
+                    val todayLastSave = myDbManager.readDbData(ConstanseDb.TIME_COLUMN_VALUE_TODAY_FOR)
 
                     //Functions
 
@@ -158,7 +149,7 @@ fun getResult(locate:String, context: Context, nowClimate: MutableState<climate>
                         val jsonArray = obj.getJSONArray("list")
 
 
-                        val howMuchShow = (24.0 - hoursNow) / 3
+                        val howMuchShow = abs(24.0 - hoursNow) / 3
                         val result = Math.ceil(howMuchShow).toInt()
                         //Log.d("ml", "how much show after: $result")
 
@@ -268,28 +259,53 @@ fun getResult(locate:String, context: Context, nowClimate: MutableState<climate>
                               val weatherT = regex.find(weatherTime)
                              */
                             
-                            weatherList.add(newTodayItem)
+                            weatherList.add(newTodayItem)/*
                             Log.d("ml", "weather is: ${newTodayItem.temp}")
                             Log.d("ml", "weather is: ${newTodayItem.humidity }")
                             Log.d("ml", "weather is: ${newTodayItem.pressure}")
                             Log.d("ml", "weather is: ${newTodayItem.wind}")
                             Log.d("ml", "weather is: ${newTodayItem.weather}")
                             Log.d("ml", "weather is: ${newTodayItem.icon}")
-                            Log.d("ml", "weather is: ${newTodayItem.feelslike}")
+                            Log.d("ml", "weather is: ${newTodayItem.feelslike}")*/
                         }
 
                         //todayClimate.value = list
                         return weatherList
                     }
 
+                    fun updateInfoToday(){
+                        Log.d("ml","UPDATE INFO!!!")
+                        val newWeather = GetNewInfo()
+                        todayClimate.value = newWeather
+                        myDbManager.deleteAllFromTable(ConstanseDb.TODAY_TABLE_NAME)
+                        for(todayWeatherItem in newWeather){
+                            myDbManager.todayWeatherInsertToDb(todayWeatherItem)
+                            Log.d("ml", "dhghf: $todayWeatherItem")
+                        }
+                        myDbManager.updateDataToDb(newTime)
+                    }
+
                     //-------------INSPECTIONS-------------
 
                     if(todayLastSave != null){
-
+                        if(todayLastSave.week == weekNow){
+                            if(todayLastSave.day == dayNow){
+                                if(abs(hoursNow - todayLastSave.time) >= 2){
+                                    updateInfoToday()
+                                }
+                            }else{
+                                updateInfoToday()
+                            }
+                        }else{
+                            updateInfoToday()
+                        }
                     } else{
                         val newWeather = GetNewInfo()
                         todayClimate.value = newWeather
-
+                        for(todayWeatherItem in newWeather){
+                            myDbManager.todayWeatherInsertToDb(todayWeatherItem)
+                        }
+                        myDbManager.insertToDb(ConstanseDb.TIME_COLUMN_VALUE_TODAY_FOR, hoursNow, dayNow, weekNow)
                     }
                 }
                 ConstanseWeather.FORECAST_OF_WEEK ->{
@@ -305,10 +321,12 @@ fun getResult(locate:String, context: Context, nowClimate: MutableState<climate>
 
     when(whil){
         ConstanseWeather.CURRENT_WEATHER -> {
+
+            val timeLastSave = myDbManager.readDbData(ConstanseDb.TIME_COLUMN_VALUE_CURRENT_FOR)
             if (timeLastSave != null) {
                 if (timeLastSave.week == weekNow) {
                     if (timeLastSave.day == dayNow) {
-                        if ((hoursNow - timeLastSave.time) >= 2) {
+                        if ((hoursNow - timeLastSave.time) >= 1) {
                             queue.add(stringRequest)
                         } else {
                             val oldClimate = myDbManager.currentTempReadDbData()
@@ -325,7 +343,27 @@ fun getResult(locate:String, context: Context, nowClimate: MutableState<climate>
             }
         }
         ConstanseWeather.FORECAST_OF_DAY ->{
-            queue.add(stringRequest)
+            val timeLastSave = myDbManager.readDbData(ConstanseDb.TIME_COLUMN_VALUE_TODAY_FOR)
+            if (timeLastSave != null) {
+                if (timeLastSave.week == weekNow) {
+                    if (timeLastSave.day == dayNow) {
+                        if (abs(hoursNow - timeLastSave.time) >= 2) {
+                            queue.add(stringRequest)
+                        } else {
+                            Log.d("ml","old info")
+                            val oldClimate = myDbManager.todayWeatherReadDbData()
+                            todayClimate.value = oldClimate
+                        }
+                    } else {
+                        Log.d("ml", "now day alredy")
+                        queue.add(stringRequest)
+                    }
+                } else {
+                    queue.add(stringRequest)
+                }
+            }else{
+                queue.add(stringRequest)
+            }
         }
         ConstanseWeather.FORECAST_OF_WEEK ->{
 
