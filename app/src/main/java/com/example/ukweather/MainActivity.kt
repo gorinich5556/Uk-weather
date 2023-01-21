@@ -48,18 +48,7 @@ class MainActivity : ComponentActivity() {
         when{
             ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                     == PackageManager.PERMISSION_GRANTED ->{
-                myDbManager = DbManager(this)
-                myDbManager.openDb()
-
-
-                setContent {
-                    val climateState = remember { mutableStateOf(climate()) }
-                    val todayClimate = remember { mutableStateOf(ArrayList<climate>()) }
-                    val getLoc = getLocation(this, climateState, todayClimate)
-                    getLoc.getLoc()
-
-                    Navigation(this, climateState, todayClimate)
-                }
+                StartCodeOnCreate()
                     }
             shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION) ->{
                 buildPermissionAlertDialog()
@@ -86,20 +75,24 @@ class MainActivity : ComponentActivity() {
     private fun registerPermissionListener(){
         pLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()){
             if(it){
-                myDbManager = DbManager(this)
-                myDbManager.openDb()
-
-                setContent {
-                    val climateState = remember { mutableStateOf(climate()) }
-                    val todayClimate = remember { mutableStateOf(ArrayList<climate>()) }
-                    val getLoc = getLocation(this, climateState, todayClimate)
-                    getLoc.getLoc()
-
-                    Navigation(this, climateState, todayClimate)
-                }
+                StartCodeOnCreate()
             }else{
                 buildPermissionAlertDialog()
             }
+        }
+    }
+    @ExperimentalMaterialApi
+    fun StartCodeOnCreate(){
+        myDbManager = DbManager(this)
+        myDbManager.openDb()
+
+        setContent {
+            val climateState = remember { mutableStateOf(climate()) }
+            val todayClimate = remember { mutableStateOf(ArrayList<climate>()) }
+            val getLoc = getLocation(this, climateState, todayClimate)
+            getLoc.getLoc()
+
+            Navigation(this, climateState, todayClimate)
         }
     }
 }

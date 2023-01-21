@@ -1,6 +1,7 @@
 package com.example.ukweather.getWeather
 
 import android.Manifest
+import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
 import android.location.LocationManager
@@ -8,6 +9,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.MutableState
 import androidx.core.app.ActivityCompat
+import com.example.ukweather.MainActivity
 import com.example.ukweather.constanse.ConstanseDb
 import com.example.ukweather.db.DbManager
 import com.example.ukweather.getResult
@@ -25,6 +27,7 @@ class getLocation(contextM: Context, nowClimate: MutableState<climate>, todayCli
     val todayClimate = todayClimate
     val dbManager = DbManager(contextM)
     fun getLoc(){
+        Log.d("ml", "find location")
         fLocationClient = LocationServices.getFusedLocationProviderClient(contextGL)
         if(!isLocationEnabled()){
             Toast.makeText(contextGL, "Увімкніть GPS", Toast.LENGTH_SHORT).show()
@@ -41,9 +44,9 @@ class getLocation(contextM: Context, nowClimate: MutableState<climate>, todayCli
             ) {
                 return
             }
-            fLocationClient
-                .getCurrentLocation(LocationRequest.PRIORITY_HIGH_ACCURACY, ct.token)
-                .addOnCompleteListener {
+            Log.d("ml", "inspection of gps is checked")
+            val task = fLocationClient.lastLocation
+            task.addOnCompleteListener {
                     //Log.d("ml", "да вопще афігенно ")
                     Log.d("ml", "location found")
                         getResult(
@@ -54,6 +57,7 @@ class getLocation(contextM: Context, nowClimate: MutableState<climate>, todayCli
                             ConstanseDb.TIME_COLUMN_VALUE_CURRENT_FOR,
                             todayClimate
                         )
+                    Log.d("ml", "weather current is found")
                         getResult(
                             "lat=${it.result.latitude}&lon=${it.result.longitude}",
                             contextGL,
