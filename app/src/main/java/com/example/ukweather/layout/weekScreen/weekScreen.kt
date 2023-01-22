@@ -29,7 +29,7 @@ import com.example.ukweather.ui.theme.backgroundLightBlue
 
 @ExperimentalMaterialApi
 @Composable
-fun weekScreen(context: Context, climateState: MutableState<climate>, navController: NavController){
+fun weekScreen(context: Context, climateState: MutableState<climate>, navController: NavController, daysOfWeekClimate: MutableState<ArrayList<climate>>){
     val nowClimate = climateState
     val gradientGrayWhite = Brush.verticalGradient(0f to backgroundDarkBlue, 1000f to backgroundLightBlue)
     val scaffoldState = rememberBottomSheetScaffoldState()
@@ -73,7 +73,7 @@ fun weekScreen(context: Context, climateState: MutableState<climate>, navControl
                         .fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ){
-                    lazyRowWeekScreen()
+                    lazyRowWeekScreen(daysOfWeekClimate)
                 }
             }
         }

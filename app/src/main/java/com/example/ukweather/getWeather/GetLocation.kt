@@ -20,11 +20,12 @@ import com.google.android.gms.tasks.CancellationTokenSource
 import org.json.JSONArray
 import org.json.JSONObject
 
-class getLocation(contextM: Context, nowClimate: MutableState<climate>, todayClimate: MutableState<ArrayList<climate>>) {
+class getLocation(contextM: Context, nowClimate: MutableState<climate>, todayClimate: MutableState<ArrayList<climate>>, daysOfWeekClimate: MutableState<ArrayList<climate>>) {
     private lateinit var fLocationClient : FusedLocationProviderClient
     var contextGL = contextM
     var climateState = nowClimate
     val todayClimate = todayClimate
+    val daysOfWeekClimate = daysOfWeekClimate
     val dbManager = DbManager(contextM)
     fun getLoc(){
         Log.d("ml", "find location")
@@ -55,7 +56,8 @@ class getLocation(contextM: Context, nowClimate: MutableState<climate>, todayCli
                             climateState,
                             dbManager,
                             ConstanseDb.TIME_COLUMN_VALUE_CURRENT_FOR,
-                            todayClimate
+                            todayClimate,
+                            daysOfWeekClimate
                         )
                     Log.d("ml", "weather current is found")
                         getResult(
@@ -64,7 +66,8 @@ class getLocation(contextM: Context, nowClimate: MutableState<climate>, todayCli
                             climateState,
                             dbManager,
                             ConstanseDb.TIME_COLUMN_VALUE_TODAY_FOR,
-                            todayClimate
+                            todayClimate,
+                            daysOfWeekClimate
                         )
 
                 }

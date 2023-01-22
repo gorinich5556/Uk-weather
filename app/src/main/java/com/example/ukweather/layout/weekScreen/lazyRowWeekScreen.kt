@@ -9,15 +9,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.ukweather.getWeather.climate
 import com.example.ukweather.ui.theme.blue2
 
-@Preview
 @Composable
-fun lazyRowWeekScreen() {
-    val test_list = arrayListOf<Int>(0, 1, 2,)
+fun lazyRowWeekScreen(listOfWeekClimate: MutableState<ArrayList<climate>>) {
     LazyRow(
         modifier = Modifier
             .fillMaxWidth()
@@ -26,8 +26,8 @@ fun lazyRowWeekScreen() {
             .border(BorderStroke(10.dp, blue2))
             .padding(start = 5.dp),
     ) {
-        itemsIndexed(test_list) { _, item ->
-            itemWeatherWeekScreen()
+        itemsIndexed(listOfWeekClimate.value) { _, item ->
+            itemWeatherWeekScreen(item)
         }
     }
 }

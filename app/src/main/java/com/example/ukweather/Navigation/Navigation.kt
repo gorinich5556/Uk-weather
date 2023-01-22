@@ -15,7 +15,7 @@ import com.example.ukweather.layout.mainScreen.weekScreen
 
 @ExperimentalMaterialApi
 @Composable
-fun Navigation(context: Context, nowClim: MutableState<climate>, todayClimate: MutableState<ArrayList<climate>>, today: Int, month: String) {
+fun Navigation(context: Context, nowClim: MutableState<climate>, todayClimate: MutableState<ArrayList<climate>>, today: Int, month: String, daysOfWeekClimateState: MutableState<ArrayList<climate>>) {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = Screen.currentScreen.route){
         composable(route = Screen.currentScreen.route){
@@ -32,7 +32,7 @@ fun Navigation(context: Context, nowClim: MutableState<climate>, todayClimate: M
             )
         }
         composable(route = Screen.weekScreen.route){
-            weekScreen(context = context, climateState = nowClim, navController)
+            weekScreen(context = context, climateState = nowClim, navController, daysOfWeekClimateState)
         }
     }
 }

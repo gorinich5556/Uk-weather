@@ -17,7 +17,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.math.abs
 
-fun getResult(locate:String, context: Context, nowClimate: MutableState<climate>, myDbManager: DbManager, whil: String, todayClimate: MutableState<ArrayList<climate>>){
+fun getResult(locate:String, context: Context, nowClimate: MutableState<climate>, myDbManager: DbManager, whil: String, todayClimate: MutableState<ArrayList<climate>>, daysOfWeekClimate: MutableState<ArrayList<climate>>){
     var url = "empty"
     val queue = Volley.newRequestQueue(context)
 
@@ -41,12 +41,8 @@ fun getResult(locate:String, context: Context, nowClimate: MutableState<climate>
         }
         ConstanseWeather.FORECAST_OF_DAY ->{
             url = "https://api.openweathermap.org/data/2.5/forecast?$locate&units=metric&cnt=40&appid=${ConstanseWeather.API_KEY}&lang=ua"
-
         }
-        ConstanseWeather.FORECAST_OF_WEEK ->{
-            url = "https://api.openweathermap.org/data/2.5/forecast?$locate&units=metric&cnt=40&appid=${ConstanseWeather.API_KEY}&lang=ua"
 
-        }
     }
 
     val stringRequest = StringRequest(
@@ -137,7 +133,9 @@ fun getResult(locate:String, context: Context, nowClimate: MutableState<climate>
 
                 }
                 ConstanseWeather.FORECAST_OF_DAY ->{
-                    Log.d("ml", "fffjsss")
+
+                    //--------------------------------FOR TODAY--------------------------
+
                     //Default quest
 
 
@@ -288,7 +286,7 @@ fun getResult(locate:String, context: Context, nowClimate: MutableState<climate>
                     if(todayLastSave != null){
                         if(todayLastSave.week == weekNow){
                             if(todayLastSave.day == dayNow){
-                                if(abs(hoursNow - todayLastSave.time) >= 2){
+                                if(abs(hoursNow - todayLastSave.time) >= 3){
                                     updateInfoToday()
                                 }
                             }else{
@@ -305,8 +303,12 @@ fun getResult(locate:String, context: Context, nowClimate: MutableState<climate>
                         }
                         myDbManager.insertToDb(ConstanseDb.TIME_COLUMN_VALUE_TODAY_FOR, hoursNow, dayNow, weekNow)
                     }
-                }
-                ConstanseWeather.FORECAST_OF_WEEK ->{
+
+                    //-------------------------------------------FOR WEEK--------------------
+
+                    //Default quest
+
+
 
                 }
             }
@@ -346,7 +348,7 @@ fun getResult(locate:String, context: Context, nowClimate: MutableState<climate>
             if (timeLastSave != null) {
                 if (timeLastSave.week == weekNow) {
                     if (timeLastSave.day == dayNow) {
-                        if (abs(hoursNow - timeLastSave.time) >= 2) {
+                        if (abs(hoursNow - timeLastSave.time) >= 3) {
                             queue.add(stringRequest)
                         } else {
                             Log.d("ml","old info")
@@ -364,44 +366,7 @@ fun getResult(locate:String, context: Context, nowClimate: MutableState<climate>
                 queue.add(stringRequest)
             }
         }
-        ConstanseWeather.FORECAST_OF_WEEK ->{
+    }
 
-        }
-    }
-/*
-    if(timeLastSave != null){
-        if(timeLastSave.day == dayNow){
-            if((timeLastSave.time - hoursNow) >= 2){
-                queue.add(stringRequest)
-            }else{
-                val oldClimate = myDbManager.currentTempReadDbData()
-                nowClimate.value = oldClimate
-            }
-        }else{
-            queue.add(stringRequest)
-        }
-    }else{
-        queue.add(stringRequest)
-    }
-*/
     return
 }
-/*
-fun getRegion(locate:String, context: Context, tempState: MutableState<Int>, nowClimate: MutableState<climate>) {
-    val url = "https://api.weatherapi.com/v1/current.json?key=035bdd3ef4ca4483b8b175622221110&q=$locate&aqi=yes"
-    val queue = Volley.newRequestQueue(context)
-    val stringRequest = StringRequest(
-        Request.Method.GET,
-        url,
-        {
-                response ->
-
-            Log.d("ml", "response: $response")
-        },
-        {
-                error ->
-            Log.d("ml", "error: $error")
-        }
-    )
-    queue.add(stringRequest)
-}*/

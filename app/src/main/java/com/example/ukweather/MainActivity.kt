@@ -110,10 +110,11 @@ class MainActivity : ComponentActivity() {
         setContent {
             val climateState = remember { mutableStateOf(climate()) }
             val todayClimate = remember { mutableStateOf(ArrayList<climate>()) }
-            val getLoc = getLocation(this, climateState, todayClimate)
+            val daysOfWeekClimate = remember { mutableStateOf(ArrayList<climate>()) }
+            val getLoc = getLocation(this, climateState, todayClimate, daysOfWeekClimate)
             getLoc.getLoc()
 
-            Navigation(this, climateState, todayClimate, dayNow, monthName)
+            Navigation(this, climateState, todayClimate, dayNow, monthName, daysOfWeekClimate)
         }
     }
 }

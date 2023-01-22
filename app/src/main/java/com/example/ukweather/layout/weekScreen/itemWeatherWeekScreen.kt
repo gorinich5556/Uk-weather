@@ -19,24 +19,24 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ukweather.R
+import com.example.ukweather.getWeather.climate
 import com.example.ukweather.ui.theme.blue2
 import com.example.ukweather.ui.theme.darkBlue
 
 
-@Preview
 @Composable
-fun itemWeatherWeekScreen() {
-    val weatherImage = R.drawable._01d
-    val weatherData = 14
-    val weatherMonth = "гр."
+fun itemWeatherWeekScreen(climateItem: climate) {
+    val weatherImage = climateItem.icon
+    val weatherData = climateItem.date
+    val weatherMonth = climateItem.month
 
-    val weather = "сонячно"
+    val weather = climateItem.weather
 
-    val maxTemp = 11
-    val minTemp = -22
+    val maxTemp = climateItem.temp
+    val minTemp = climateItem.minTemp
 
-    val maxWind = 2
-    val minWind = 0
+    val maxWind = climateItem.wind
+    val minWind = climateItem.minWind
     BoxWithConstraints() {
         if(this.maxHeight < 250.dp) {
             Column(
