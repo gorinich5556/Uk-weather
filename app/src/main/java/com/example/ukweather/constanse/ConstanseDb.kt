@@ -15,6 +15,7 @@ object ConstanseDb {
 
     const val TIME_COLUMN_VALUE_CURRENT_FOR = "current"
     const val TIME_COLUMN_VALUE_TODAY_FOR = "today"
+    const val TIME_COLUMN_VALUE_WEEK = "week"
 
     const val TIME_CREATE_TABLE = "CREATE TABLE IF NOT EXISTS $TIME_TABLE_NAME (" +
             "${BaseColumns._ID} INTEGER PRIMARY KEY," +

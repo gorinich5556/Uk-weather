@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.navigation.NavController
 import com.example.ukweather.db.DbManager
+import com.example.ukweather.getWeather.ClimateOfWeek
 import com.example.ukweather.getWeather.climate
 import com.example.ukweather.layout.common.navigationBar
 import com.example.ukweather.layout.todayScreen.lazyRowForShowWeather
@@ -29,7 +30,7 @@ import com.example.ukweather.ui.theme.backgroundLightBlue
 
 @ExperimentalMaterialApi
 @Composable
-fun weekScreen(context: Context, climateState: MutableState<climate>, navController: NavController, daysOfWeekClimate: MutableState<ArrayList<climate>>){
+fun weekScreen(context: Context, climateState: MutableState<climate>, navController: NavController, daysOfWeekClimate: MutableState<ArrayList<ClimateOfWeek>>){
     val nowClimate = climateState
     val gradientGrayWhite = Brush.verticalGradient(0f to backgroundDarkBlue, 1000f to backgroundLightBlue)
     val scaffoldState = rememberBottomSheetScaffoldState()

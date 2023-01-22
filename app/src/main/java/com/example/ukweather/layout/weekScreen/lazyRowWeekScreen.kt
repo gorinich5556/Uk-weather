@@ -13,11 +13,12 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.ukweather.getWeather.ClimateOfWeek
 import com.example.ukweather.getWeather.climate
 import com.example.ukweather.ui.theme.blue2
 
 @Composable
-fun lazyRowWeekScreen(listOfWeekClimate: MutableState<ArrayList<climate>>) {
+fun lazyRowWeekScreen(listOfWeekClimate: MutableState<ArrayList<ClimateOfWeek>>) {
     LazyRow(
         modifier = Modifier
             .fillMaxWidth()

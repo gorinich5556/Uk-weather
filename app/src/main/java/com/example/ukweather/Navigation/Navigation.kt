@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.ukweather.Navigation.Screen
+import com.example.ukweather.getWeather.ClimateOfWeek
 import com.example.ukweather.getWeather.climate
 import com.example.ukweather.layout.mainScreen.myScreen
 import com.example.ukweather.layout.mainScreen.todayScreen
@@ -15,7 +16,7 @@ import com.example.ukweather.layout.mainScreen.weekScreen
 
 @ExperimentalMaterialApi
 @Composable
-fun Navigation(context: Context, nowClim: MutableState<climate>, todayClimate: MutableState<ArrayList<climate>>, today: Int, month: String, daysOfWeekClimateState: MutableState<ArrayList<climate>>) {
+fun Navigation(context: Context, nowClim: MutableState<climate>, todayClimate: MutableState<ArrayList<climate>>, today: Int, month: String, daysOfWeekClimateState: MutableState<ArrayList<ClimateOfWeek>>) {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = Screen.currentScreen.route){
         composable(route = Screen.currentScreen.route){

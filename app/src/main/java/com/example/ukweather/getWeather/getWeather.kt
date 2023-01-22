@@ -10,6 +10,7 @@ import com.example.ukweather.constanse.ConstanseDb
 import com.example.ukweather.constanse.ConstanseWeather
 import com.example.ukweather.db.DbManager
 import com.example.ukweather.db.timeNow
+import com.example.ukweather.getWeather.ClimateOfWeek
 import com.example.ukweather.getWeather.climate
 import org.json.JSONArray
 import org.json.JSONObject
@@ -17,7 +18,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.math.abs
 
-fun getResult(locate:String, context: Context, nowClimate: MutableState<climate>, myDbManager: DbManager, whil: String, todayClimate: MutableState<ArrayList<climate>>, daysOfWeekClimate: MutableState<ArrayList<climate>>){
+fun getResult(locate:String, context: Context, nowClimate: MutableState<climate>, myDbManager: DbManager, whil: String, todayClimate: MutableState<ArrayList<climate>>, daysOfWeekClimate: MutableState<ArrayList<ClimateOfWeek>>){
     var url = "empty"
     val queue = Volley.newRequestQueue(context)
 
@@ -309,6 +310,8 @@ fun getResult(locate:String, context: Context, nowClimate: MutableState<climate>
                     //Default quest
 
 
+                    newTime.fore = ConstanseDb.TIME_COLUMN_VALUE_WEEK
+                    val weekLastSave = myDbManager.readDbData(ConstanseDb.TIME_COLUMN_VALUE_WEEK)
 
                 }
             }

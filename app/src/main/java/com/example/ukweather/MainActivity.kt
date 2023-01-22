@@ -17,6 +17,7 @@ import com.example.ukweather.constanse.ConstanseDb
 import com.example.ukweather.constanse.ConstanseWeather
 import com.example.ukweather.db.DbManager
 import com.example.ukweather.db.timeNow
+import com.example.ukweather.getWeather.ClimateOfWeek
 import com.example.ukweather.getWeather.climate
 import com.example.ukweather.getWeather.getLocation
 import org.json.JSONObject
@@ -110,7 +111,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             val climateState = remember { mutableStateOf(climate()) }
             val todayClimate = remember { mutableStateOf(ArrayList<climate>()) }
-            val daysOfWeekClimate = remember { mutableStateOf(ArrayList<climate>()) }
+            val daysOfWeekClimate = remember { mutableStateOf(ArrayList<ClimateOfWeek>()) }
             val getLoc = getLocation(this, climateState, todayClimate, daysOfWeekClimate)
             getLoc.getLoc()
 
