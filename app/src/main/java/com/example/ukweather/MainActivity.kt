@@ -83,8 +83,29 @@ class MainActivity : ComponentActivity() {
     }
     @ExperimentalMaterialApi
     fun StartCodeOnCreate(){
+
         myDbManager = DbManager(this)
         myDbManager.openDb()
+
+        val calendar: Calendar = GregorianCalendar.getInstance()
+        val dayNow = calendar.get(Calendar.DAY_OF_MONTH)
+        val monthNow = calendar.get(Calendar.MONTH)
+
+        var monthName = ""
+        when(monthNow){
+            0 -> monthName = this.getString(R.string.January)
+            1 -> monthName = this.getString(R.string.February)
+            2 -> monthName = this.getString(R.string.March)
+            3 -> monthName = this.getString(R.string.April)
+            4 -> monthName = this.getString(R.string.May)
+            5 -> monthName = this.getString(R.string.June)
+            6 -> monthName = this.getString(R.string.July)
+            7 -> monthName = this.getString(R.string.August)
+            8 ->  monthName = this.getString(R.string.September)
+            9 -> monthName = this.getString(R.string.October)
+            10 -> monthName = this.getString(R.string.November)
+            11 -> monthName = this.getString(R.string.December)
+        }
 
         setContent {
             val climateState = remember { mutableStateOf(climate()) }
@@ -92,7 +113,7 @@ class MainActivity : ComponentActivity() {
             val getLoc = getLocation(this, climateState, todayClimate)
             getLoc.getLoc()
 
-            Navigation(this, climateState, todayClimate)
+            Navigation(this, climateState, todayClimate, dayNow, monthName)
         }
     }
 }
