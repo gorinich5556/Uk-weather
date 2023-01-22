@@ -27,6 +27,7 @@ fun getResult(locate:String, context: Context, nowClimate: MutableState<climate>
     val hoursNow = calendar.get(Calendar.HOUR_OF_DAY)
     val dayNow = calendar.get(Calendar.DAY_OF_WEEK)
     val weekNow = calendar.get(Calendar.WEEK_OF_YEAR)
+    val dayOfMouth = calendar.get(Calendar.DAY_OF_MONTH)
     val newTime = timeNow()
     newTime.week = weekNow
     newTime.day = dayNow
@@ -142,23 +143,31 @@ fun getResult(locate:String, context: Context, nowClimate: MutableState<climate>
 
                     newTime.fore = ConstanseDb.TIME_COLUMN_VALUE_TODAY_FOR
                     val todayLastSave = myDbManager.readDbData(ConstanseDb.TIME_COLUMN_VALUE_TODAY_FOR)
+                    Log.d("ml", "weather is: $obj")
 
                     //Functions
 
                     fun GetNewInfo(): ArrayList<climate> {
-                        val jsonArray = obj.getJSONArray("list")
-
-
-                        val howMuchShow = abs(24.0 - hoursNow) / 3
-                        val result = Math.ceil(howMuchShow).toInt()
-                        //Log.d("ml", "how much show after: $result")
-
                         val list = arrayListOf<JSONObject>()
                         val weatherList = arrayListOf<climate>()
+                        val jsonArray = obj.getJSONArray("list")
 
-                        for (i in 0..result - 1) {
+                        for(i in 0..jsonArray.length()-1){
+
+                            /** Inspection date */
+
+                            val item = jsonArray.getJSONObject(i).getString("dt_txt")
+                            Log.d("ml","date: $item")
+                            val regex = Regex("\\d\\d ")
+                            val date = regex.find(item)?.value?.replace(" ", "")
+                            Log.d("ml", "day: $date")
+                            if(date?.toInt() == dayOfMouth + 1) break
+
+
+                            /** The following code fills the list with items */
+
                             list.add(jsonArray.getJSONObject(i))
-                            
+
                             val newTodayItem = climate()
                             newTodayItem.temp = jsonArray.getJSONObject(i).getJSONObject("main").getInt("temp")
                             newTodayItem.feelslike = jsonArray.getJSONObject(i).getJSONObject("main").getInt("feels_like")
@@ -247,27 +256,16 @@ fun getResult(locate:String, context: Context, nowClimate: MutableState<climate>
 
                             val weatherTime = jsonArray.getJSONObject(i).getString("dt_txt")
 
-                            val regex = Regex("\\s\\d\\d:\\d\\d")
-                            val weatherT = regex.find(weatherTime)?.value
+                            val regexer = Regex("\\s\\d\\d:\\d\\d")
+                            val weatherT = regexer.find(weatherTime)?.value
 
                             newTodayItem.hour = weatherT.toString()
 
-                            /*
-                              val weatherTime = todayClimateOfThreeHours.getString("dt_txt")
 
-                              val regex = Regex("\\s\\d\\d:\\d\\d")
-                              val weatherT = regex.find(weatherTime)
-                             */
-                            
-                            weatherList.add(newTodayItem)/*
-                            Log.d("ml", "weather is: ${newTodayItem.temp}")
-                            Log.d("ml", "weather is: ${newTodayItem.humidity }")
-                            Log.d("ml", "weather is: ${newTodayItem.pressure}")
-                            Log.d("ml", "weather is: ${newTodayItem.wind}")
-                            Log.d("ml", "weather is: ${newTodayItem.weather}")
-                            Log.d("ml", "weather is: ${newTodayItem.icon}")
-                            Log.d("ml", "weather is: ${newTodayItem.feelslike}")*/
+                            weatherList.add(newTodayItem)
+
                         }
+
 
                         //todayClimate.value = list
                         return weatherList
@@ -291,6 +289,8 @@ fun getResult(locate:String, context: Context, nowClimate: MutableState<climate>
                         if(todayLastSave.week == weekNow){
                             if(todayLastSave.day == dayNow){
                                 if(abs(hoursNow - todayLastSave.time) >= 2){
+                                    updateInfoToday()
+                                }else{
                                     updateInfoToday()
                                 }
                             }else{
@@ -365,6 +365,7 @@ fun getResult(locate:String, context: Context, nowClimate: MutableState<climate>
             }else{
                 queue.add(stringRequest)
             }
+            queue.add(stringRequest)
         }
         ConstanseWeather.FORECAST_OF_WEEK ->{
 
