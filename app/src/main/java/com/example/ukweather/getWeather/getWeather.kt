@@ -290,8 +290,6 @@ fun getResult(locate:String, context: Context, nowClimate: MutableState<climate>
                             if(todayLastSave.day == dayNow){
                                 if(abs(hoursNow - todayLastSave.time) >= 2){
                                     updateInfoToday()
-                                }else{
-                                    updateInfoToday()
                                 }
                             }else{
                                 updateInfoToday()
@@ -365,7 +363,6 @@ fun getResult(locate:String, context: Context, nowClimate: MutableState<climate>
             }else{
                 queue.add(stringRequest)
             }
-            queue.add(stringRequest)
         }
         ConstanseWeather.FORECAST_OF_WEEK ->{
 
