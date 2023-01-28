@@ -135,10 +135,12 @@ fun getResult(locate:String, context: Context, nowClimate: MutableState<climate>
                 }
                 ConstanseWeather.FORECAST_OF_DAY ->{
 
+                    //common quest
+                    val jsonArray = obj.getJSONArray("list")
+
                     //--------------------------------FOR TODAY--------------------------
 
                     //Default quest
-
 
                     newTime.fore = ConstanseDb.TIME_COLUMN_VALUE_TODAY_FOR
                     val todayLastSave = myDbManager.readDbData(ConstanseDb.TIME_COLUMN_VALUE_TODAY_FOR)
@@ -149,7 +151,6 @@ fun getResult(locate:String, context: Context, nowClimate: MutableState<climate>
                     fun GetNewInfo(): ArrayList<climate> {
                         val list = arrayListOf<JSONObject>()
                         val weatherList = arrayListOf<climate>()
-                        val jsonArray = obj.getJSONArray("list")
 
                         for(i in 0..jsonArray.length()-1){
 
@@ -309,9 +310,40 @@ fun getResult(locate:String, context: Context, nowClimate: MutableState<climate>
 
                     //Default quest
 
-
                     newTime.fore = ConstanseDb.TIME_COLUMN_VALUE_WEEK
                     val weekLastSave = myDbManager.readDbData(ConstanseDb.TIME_COLUMN_VALUE_WEEK)
+
+                    //Functions
+
+                    var typeDate = 0
+                    val listData = arrayListOf<JSONObject>()
+                    var a = 0
+
+                    for(i in 0 until jsonArray.length()){
+
+                        val jsonItem = jsonArray.getJSONObject(i)
+                        val item = jsonItem.getString("dt_txt")
+                        val regex = Regex("\\d\\d ")
+                        val date = regex.find(item)?.value!!.replace(" ", "").toInt()
+                        //Log.d("ml", "dateghjfgj is : $date")
+                        //Log.d("ml", "dadj is : $datee")
+                        if(typeDate == 0) {
+                            typeDate = date
+                            //Log.d("ml", "type date null but date: $date")
+                            listData.add(jsonItem)
+                        }else{
+                            if(typeDate == date){
+                                listData.add(jsonItem)
+                            }else{
+                                for(i in listData){
+                                    /**-------The part for write a weather info to climate of week class*/
+
+                                }
+                                typeDate = 0
+                                listData.clear()
+                            }
+                        }
+                    }
 
                 }
             }
@@ -368,6 +400,7 @@ fun getResult(locate:String, context: Context, nowClimate: MutableState<climate>
             }else{
                 queue.add(stringRequest)
             }
+            queue.add(stringRequest)
         }
     }
 
