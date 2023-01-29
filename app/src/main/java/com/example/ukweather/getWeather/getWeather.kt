@@ -12,6 +12,7 @@ import com.example.ukweather.db.DbManager
 import com.example.ukweather.db.timeNow
 import com.example.ukweather.getWeather.ClimateOfWeek
 import com.example.ukweather.getWeather.climate
+import com.example.ukweather.getWeather.getIcon
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.*
@@ -172,83 +173,11 @@ fun getResult(locate:String, context: Context, nowClimate: MutableState<climate>
                             newTodayItem.temp = jsonArray.getJSONObject(i).getJSONObject("main").getInt("temp")
                             newTodayItem.feelslike = jsonArray.getJSONObject(i).getJSONObject("main").getInt("feels_like")
 
-                            var weatherD = ""
-                            var weatherIc = 0
+
                             val weatherIcon = jsonArray.getJSONObject(i).getJSONArray("weather").getJSONObject(0).getString("icon")
-                            when(weatherIcon){
-                                "01d" -> {
-                                    weatherIc = R.drawable._01d
-                                    weatherD = context.getString(R.string.clearDay)
-                                }
-                                "01n" -> {
-                                    weatherIc = R.drawable._01n
-                                    weatherD = context.getString(R.string.clearNight)
-                                }
-                                "02d" -> {
-                                    weatherIc = R.drawable._02d
-                                    weatherD = context.getString(R.string.fewClouds)
-                                }
-                                "02n" -> {
-                                    weatherIc = R.drawable._02n
-                                    weatherD = context.getString(R.string.fewClouds)
-                                }
-                                "03d" -> {
-                                    weatherIc = R.drawable._03d
-                                    weatherD = context.getString(R.string.clouds)
-                                }
-                                "03n" -> {
-                                    weatherIc = R.drawable._03d
-                                    weatherD = context.getString(R.string.clouds)
-                                }
-                                "04d" -> {
-                                    weatherIc = R.drawable._04d
-                                    weatherD = context.getString(R.string.brokenClouds)
-                                }
-                                "04n" -> {
-                                    weatherIc = R.drawable._04d
-                                    weatherD = context.getString(R.string.brokenClouds)
-                                }
-                                "09d" -> {
-                                    weatherIc = R.drawable._09d
-                                    weatherD = context.getString(R.string.showerRain)
-                                }
-                                "09n" -> {
-                                    weatherIc = R.drawable._09d
-                                    weatherD = context.getString(R.string.showerRain)
-                                }
-                                "10d" -> {
-                                    weatherIc = R.drawable._10d
-                                    weatherD = context.getString(R.string.rain)
-                                }
-                                "10n" -> {
-                                    weatherIc = R.drawable._10n
-                                    weatherD = context.getString(R.string.rain)
-                                }
-                                "11d" -> {
-                                    weatherIc = R.drawable._11d
-                                    weatherD = context.getString(R.string.thunderstorm)
-                                }
-                                "11n" -> {
-                                    weatherIc = R.drawable._11d
-                                    weatherD = context.getString(R.string.thunderstorm)
-                                }
-                                "13d" -> {
-                                    weatherIc = R.drawable._13d
-                                    weatherD = context.getString(R.string.snow)
-                                }
-                                "13n" -> {
-                                    weatherIc = R.drawable._13d
-                                    weatherD = context.getString(R.string.snow)
-                                }
-                                "50d" -> {
-                                    weatherIc = R.drawable._50d
-                                    weatherD = context.getString(R.string.mist)
-                                }
-                                "50n" -> {
-                                    weatherIc = R.drawable._50d
-                                    weatherD = context.getString(R.string.mist)
-                                }
-                            }
+                            val weatherDescAndIc = getIcon(weatherIcon, context)
+                            var weatherD = weatherDescAndIc[1]
+                            var weatherIc = weatherDescAndIc[0].toInt()
                             newTodayItem.weather = weatherD
                             newTodayItem.humidity = Math.round(jsonArray.getJSONObject(i).getJSONObject("main").getString("humidity").toDouble()).toInt()
                             newTodayItem.pressure = Math.round(jsonArray.getJSONObject(i).getJSONObject("main").getString("pressure").toDouble()).toInt()
@@ -316,34 +245,76 @@ fun getResult(locate:String, context: Context, nowClimate: MutableState<climate>
                     //Functions
 
                     var typeDate = 0
-                    val listData = arrayListOf<JSONObject>()
+                    val listData = arrayListOf<ClimateOfWeek>()
                     var a = 0
 
                     for(i in 0 until jsonArray.length()){
+                        a++
 
+                        val weatherItemWeek = ClimateOfWeek()
                         val jsonItem = jsonArray.getJSONObject(i)
-                        val item = jsonItem.getString("dt_txt")
-                        val regex = Regex("\\d\\d ")
-                        val date = regex.find(item)?.value!!.replace(" ", "").toInt()
-                        //Log.d("ml", "dateghjfgj is : $date")
-                        //Log.d("ml", "dadj is : $datee")
-                        if(typeDate == 0) {
-                            typeDate = date
-                            //Log.d("ml", "type date null but date: $date")
-                            listData.add(jsonItem)
-                        }else{
-                            if(typeDate == date){
-                                listData.add(jsonItem)
-                            }else{
-                                for(i in listData){
-                                    /**-------The part for write a weather info to climate of week class*/
+                        val main = jsonItem.getJSONObject("main")
+                        val weather = jsonItem.getJSONArray("weather").getJSONObject(0)
 
-                                }
-                                typeDate = 0
-                                listData.clear()
-                            }
+                        //Get data for weather item
+                        val itemDate = jsonItem.getString("dt_txt")
+
+                        //Get day of month
+                        val regexDayOfMonth = Regex("\\d\\d ")
+                        val date = regexDayOfMonth.find(itemDate)?.value!!.replace(" ", "").toInt()
+
+                        //Get month
+                        val regexMonth = Regex("-\\d\\d-")
+                        val month = regexMonth.find(itemDate)!!.value.replace("-", "")
+                        Log.d("ml", "month is: $month + $a")
+                        var monthName = ""
+                        when(month){
+                            "01" -> monthName = context.getString(R.string.shortJanuary)
+                            "02" -> monthName = context.getString(R.string.shortFebruary)
+                            "03" -> monthName = context.getString(R.string.shortMarch)
+                            "04" -> monthName = context.getString(R.string.shortApril)
+                            "05" -> monthName = context.getString(R.string.shortMay)
+                            "06" -> monthName = context.getString(R.string.shortJune)
+                            "07" -> monthName = context.getString(R.string.shortJuly)
+                            "08" -> monthName = context.getString(R.string.shortAugust)
+                            "09" ->  monthName = context.getString(R.string.shortSeptember)
+                            "10" -> monthName = context.getString(R.string.shortOctober)
+                            "11" -> monthName = context.getString(R.string.shortNovember)
+                            "12" -> monthName = context.getString(R.string.shortDecember)
                         }
+
+                        //Get time for weather item
+                        val weatherFullTime = jsonItem.getString("dt_txt")
+
+                        val regexTime = Regex("\\s\\d\\d:\\d\\d")
+                        val weatherTime = regexTime.find(weatherFullTime)?.value
+
+                        //Get icon and description for weather item
+                        val weatherIconName = weather.getString("icon")
+                        val weatherDescAndIc = getIcon(weatherIconName, context)
+                        var weatherD = weatherDescAndIc[1]
+                        var weatherIc = weatherDescAndIc[0].toInt()
+
+                        //Get wind for weather item
+                        val winds = jsonItem.getJSONObject("wind")
+
+                        //Write info in the weather item
+                        weatherItemWeek.date = date
+                        weatherItemWeek.maxTemp = Math.round(main.getDouble("temp_max")).toInt()
+                        weatherItemWeek.minTemp = Math.round(main.getDouble("temp_min")).toInt()
+                        weatherItemWeek.feelslike = Math.round(main.getDouble("feels_like")).toInt()
+                        weatherItemWeek.humidity = main.getInt("humidity")
+                        weatherItemWeek.pressure = main.getInt("pressure")
+                        weatherItemWeek.hour = weatherTime.toString()
+                        weatherItemWeek.month = monthName
+                        weatherItemWeek.icon = weatherIc
+                        weatherItemWeek.weather = weatherD
+                        weatherItemWeek.wind = Math.round(winds.getDouble("speed")).toInt()
+
+                        listData.add(weatherItemWeek)
                     }
+
+                    daysOfWeekClimate.value = listData
 
                 }
             }

@@ -8,6 +8,7 @@
     <string name="weather_weather">погода: </string>
     <string name="weather_feelslike">відчувається: </string>
     <!-- TODO: Remove or change this placeholder text -->
+    <!-- MONTH -->
     <string name="January">cічня</string>
     <string name="February">лютий</string>
     <string name="March">березня</string>
@@ -20,6 +21,22 @@
     <string name="October">жовтня</string>
     <string name="November">листопада.</string>
     <string name="December">грудня</string>
+
+    <!-- MONTH, SHORT VERSION -->
+    <string name="shortJanuary">cч.</string>
+    <string name="shortFebruary">лт.</string>
+    <string name="shortMarch">бр.</string>
+    <string name="shortApril">кв.</string>
+    <string name="shortMay">тр.</string>
+    <string name="shortJune">чр.</string>
+    <string name="shortJuly">лп.</string>
+    <string name="shortAugust">сп.</string>
+    <string name="shortSeptember">вр.</string>
+    <string name="shortOctober">жт.</string>
+    <string name="shortNovember">лп.</string>
+    <string name="shortDecember">гр.</string>
+
+    <!-- WEATHER -->
     <string name="clearDay">сонячно</string>
     <string name="clearNight">місячно</string>
     <string name="fewClouds">хмарно</string>
