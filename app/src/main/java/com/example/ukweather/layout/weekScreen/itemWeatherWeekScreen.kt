@@ -36,8 +36,8 @@ fun itemWeatherWeekScreen(climateItem: ClimateOfWeek) {
     val maxTemp = climateItem.maxTemp
     val minTemp = climateItem.minTemp
 
-    val maxWind = climateItem.wind
-    val minWind = climateItem.wind
+    val maxWind = climateItem.maxWind
+    val minWind = climateItem.minWind
     BoxWithConstraints() {
         if(this.maxHeight < 250.dp) {
             Column(
